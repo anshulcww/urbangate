@@ -6,22 +6,25 @@ const visitorSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    visitorName : {
+    residentId : {
         type :  String,
         required : true
     },
-    address : {
+    visitorAddress : {
         type : String,
         required : true
     },
-    phoneNumber : {
+    visitorPhoneNumber : {
         type : Number,
         required : true
     },
-    vehicleNumber : {
-        type : Number,
+    vehicleNo : {
+        type : String,
     },
-    flatNumber : {
+    flatNo : {
+        type : String
+    },
+    contactPerson : {
         type : String
     },
     isPreapproved : {
@@ -33,6 +36,18 @@ const visitorSchema = mongoose.Schema({
     },
     checkOutTime : {
         type : Number
+    },
+    visitorImageUrl : {
+        type :  String
+    },
+    status : {
+        type: String,
+        enum: ['accepted', 'declined'],
+        required: true
+    },
+    societyId : {
+        type:  String,
+        required: true
     }
 })
 

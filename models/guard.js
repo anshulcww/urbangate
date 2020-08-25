@@ -6,6 +6,10 @@ const guardSchema = mongoose.Schema({
         type : String,
         required : true
     },
+    societyId : {
+        type : String,
+        required: true
+    },
     guardName : {
         type : String,
         trim: true

@@ -1,11 +1,33 @@
 const express = require('express')
 const router = express.Router()
 const guardAuth = require('../middleware/auth')
-// const User = require('../models/user')
-// const Audit = require('../models/audit')
+const Guard = require('../models/guard')
+const Resident = require('../models/resident')
 const mongoose = require('mongoose')
 
 const ObjectId = mongoose.Types.ObjectId
+
+// Api for pre approved visitors
+router.get('/isPreApproved', guardAuth, async (req, res) => {
+    try{
+    let visitorSocietyId = req.guard.societyId
+    let visitorDet = await Visitor.find({
+        societyId :  visitorSocietyId,
+        isPreapproved : true
+    }).sort({_id : -1})
+    
+    res.status(201).send({
+        success: true,
+        visitors : visitorDet
+    })
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error
+        })
+    }
+})
 
 // Guard Login request
 
@@ -38,27 +60,47 @@ router.post('/addVisitor' , guardAuth,  async (req, res) => {
     try {
         const {
             flatNo,
-            imageUrl,
+            visitorName,
+            contactPerson,
+            visitorImageUrl,
             mobileNo,
             vehicleNo,
-            residentId
+            residentId,
+            visitorAddress
         } = req.body
-        
-        // Send Notification to the residents
 
-        const visitor = await Visitor.addVisitor(mobileNumber, password)
-        const token = await guard.generateAuthToken()
-        await user.save()
+        //Get residentId details
+        let resDetails = await Resident.find({_id : ObjectId(residentId)})
+        let message = `Hi! ${visitorName} requested you to accept the permission for entering in the society`
+
+        // Send Notification to the resident
+        if (resDetails && resDetails.deviceIds && resDetails.deviceIds.length > 0) {
+            console.log(resDetails.name)
+            await Notification.push(resDetails.deviceIds, 'Entry Permission', message, 'visitor')
+        }
+
+        const visitor = new Visitor({
+            residentId: residentId,
+            residentId: residentId,
+            visitorAddress: visitorAddress,
+            visitorPhoneNumber: mobileNo,
+            vehicleNo: vehicleNo,
+            flatNo: flatNo,
+            isPreapproved: false,
+            checkInTime: checkInTime,
+            visitorImageUrl: visitorImageUrl,
+            contactPerson: contactPerson,
+        })
+        await visitor.save()
         res.status(201).json({
             success: true,
-            guard,
-            token
+            message:  'notification send to the resident'
         })
     } catch (error) {
         console.log(error)
         res.status(400).send({
             success: false,
-            error
+            error: 'Something went wrong'
         })
 
     }
