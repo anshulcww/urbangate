@@ -18,18 +18,18 @@ app.get('/', (req, res) => res.send('Server is running .... '))
 //connecting Mongodb
 
 
-mongoose.connect(Config.MONGODB_URL, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-}, (err, doc) => {
-    if(err) {
-        console.log(err)
-    }else{
-        console.log('database created')
+// mongoose.connect(Config.MONGODB_URL, {
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useUnifiedTopology: true
+// }, (err, doc) => {
+//     if(err) {
+//         console.log(err)
+//     }else{
+//         console.log('database created')
         
-    }
-})
+//     }
+// })
 
 const server = app.listen(process.env.PORT || 5000, () => {
     console.log(`server running on port `)
