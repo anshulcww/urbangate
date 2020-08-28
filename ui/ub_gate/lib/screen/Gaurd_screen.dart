@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:urban_gate/login_page.dart';
-import 'reusecard.dart';
+import 'Loginpage.dart';
+import 'reuse.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
@@ -52,42 +52,26 @@ class Gaurd_welcome_screen extends StatelessWidget {
               ),
               Expanded(child: Row(
                 children: [
-                  Container( child:
-                  Row(children:
-                  [FlatButton(onPressed: null, child: Icon(FontAwesomeIcons.home),color: Colors.blue,) ,
-                    FlatButton(onPressed: null, child: Icon(FontAwesomeIcons.list)) ,
-                  ],)
-                    ,width: 410, decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
+                  Container(width: 409,
+                    child: Card( elevation: 14,
+                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                          children:
+                        [FlatButton(padding:EdgeInsets.fromLTRB(0, 0, 0, 0) ,
+                      onPressed: (){Navigator.pushNamed(context, Loginpage.id);},
+                      child: Icon(FontAwesomeIcons.home,color:Color(0xFF404040) ,),
+                    ) ,SizedBox(width: 66,
+                        ),
+                      FlatButton(padding:EdgeInsets.fromLTRB(0, 0, 0, 0) ,
+                          onPressed: null,
+                          child: Icon(FontAwesomeIcons.list,color:Color(0xFF404040) ,),) ,
+                    ],)
 
-                    ),
+                      ),
                   ),
+
                 ],
-              ))
-
-//                Container( width: 408,
-////                    height: 43,
-////                    decoration: BoxDecoration( color: Colors.blue,
-////                    borderRadius: BorderRadius.circular(10.0),
-////                  ),
-////                  child: Row(mainAxisAlignment: MainAxisAlignment.center,
-////                    children: [
-////                      Column(children: [
-////                        FlatButton(onPressed: (){Navigator.pop(context);},
-////                            child: Icon(FontAwesomeIcons.home),
-////                          padding:EdgeInsets.fromLTRB(0, 0, 0, 10) ,
-////                        ),
-////                      ],),
-////                      Column(children: [FlatButton(onPressed:(){
-////                        Navigator.pushNamed(context, Loginpage.id);
-////                      }, child: Icon(FontAwesomeIcons.list),
-////                      padding:EdgeInsets.fromLTRB(0, 0, 0, 10)  ,
-////                      )],)
-////                    ],
-////                  )
-////
-////                ),
-
+              ),
+              )
             ]
         ),
         ],

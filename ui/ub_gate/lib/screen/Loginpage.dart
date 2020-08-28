@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:urban_gate/Gaurd_welcome_sceen.dart';
+import 'Gaurd_screen.dart';
 
 class Loginpage extends StatefulWidget {
   static String id ='login_page';
