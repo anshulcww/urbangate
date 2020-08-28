@@ -17,9 +17,8 @@ class Loginbutton extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           elevation: 5.0,
           child: MaterialButton(
-            onPressed: () {
-              //Implement login functionality.
-            },
+            onPressed: onPressed,
+              //Implement login functionalit
             minWidth: 400,
             height: 42.0,
             child: Text(

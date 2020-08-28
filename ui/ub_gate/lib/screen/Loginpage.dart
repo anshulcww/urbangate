@@ -1,12 +1,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ub_gate/screen/NewVisitor.dart';
 import 'Gaurd_screen.dart';
 import 'Loginbutton.dart';
 
 
 class Loginpage extends StatefulWidget {
-  static String id ='login_page';
+  static const String id ='login_page';
   @override
   _LoginpageState createState() => _LoginpageState();
 }
@@ -16,7 +17,7 @@ class _LoginpageState extends State<Loginpage> {
   Widget build(BuildContext context) {
     return Scaffold(
          body:Column(
- crossAxisAlignment:CrossAxisAlignment.stretch,
+              crossAxisAlignment:CrossAxisAlignment.stretch,
 
            children: <Widget>[
              Flexible(
@@ -98,8 +99,8 @@ class _LoginpageState extends State<Loginpage> {
                SizedBox(
                  height: 24.0,
                ),
-                Loginbutton(onPressed: null,title: 'Login',),
-                 Loginbutton(onPressed: null,title: 'Login with OTP',),
+                Loginbutton(onPressed:(){Navigator.pushNamed(context, Gaurd_welcome_screen.id);} ,title: 'Login',),
+                 Loginbutton(onPressed: (){Navigator.pushNamed(context,NewVisitor.id );},title: 'Login with OTP',),
           ],
            ),
             ),

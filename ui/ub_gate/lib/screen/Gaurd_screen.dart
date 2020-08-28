@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class Gaurd_welcome_screen extends StatelessWidget {
-  static String id = 'Gaurd_welcome_screen';
+  static const String id = 'Gaurd_welcome_screen';
   @override
   Widget build(BuildContext context) {
 
