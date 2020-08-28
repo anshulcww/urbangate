@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Loginpage.dart';
-import 'reuse.dart';
+import 'Reuse.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
