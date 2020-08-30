@@ -1,0 +1,18 @@
+Society API
+
+1) Api for Creating Society
+    
+    url - http://localhost:5000/createSociety
+    method - POST
+    body - {
+	"societyName" : "Tarika Apartments",
+	"address" : "sector 43",
+	"phoneNumber" : "7340448459",
+	"email" : "anshulverma96@gmail.com"
+}
+
+2) API to get society details
+    url - http://localhost:5000/getSociety/7340448459
+    method : GET
+    params - MobileNumber
+
