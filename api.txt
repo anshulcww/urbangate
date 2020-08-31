@@ -1,4 +1,4 @@
-Society API
+-------------SOCIETY API---------------
 
 1) Api for Creating Society
     
@@ -15,4 +15,31 @@ Society API
     url - http://localhost:5000/society/getSociety/7340448459
     method : GET
     params - MobileNumber
+
+----------------ADMIN API-----------------
+
+1) REGISTER API ADMIN
+    url - http://localhost:5000/admin/register
+    method : POST
+    body : {
+        "societyId" : "5f4d0f8290d74f259b673f90",
+        "adminName": "Mr. Anshul Verma",
+        "address" : "Sector 47",
+        "phoneNumber" : "0987654321",
+        "email" : "anshul@gmail.com",
+        "password" : "1234567890"
+    }
+
+2) ADD GUARD API
+    url - http://localhost:5000/admin/addGuard
+    method : POST
+    body : {
+        "adminId" : "5f4d13fedbb90b296d1c8911",
+        "guardName": "asdsd",
+        "guardMobileNumber" :"122342345",
+        "address" : "aasdad",
+        "societyId" : "5f4d0f8290d74f259b673f90"
+    }
+    headers : Bearer Token
+
 

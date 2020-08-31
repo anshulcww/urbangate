@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Society = require('./models/society')
+const Society = require('../models/society')
 
 
 // Get all societies
@@ -64,3 +64,4 @@ router.get('/getSociety/:phoneNumber', async (req, res) => {
         })
     }
 })
+module.exports = router;

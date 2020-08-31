@@ -1,5 +1,7 @@
   
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+const Config = require('../config')
 
 const guardSchema = mongoose.Schema({
     adminId : {
@@ -17,9 +19,8 @@ const guardSchema = mongoose.Schema({
     },
     address : {
         type : String,
-        required : true
     },
-    mobileNumber: {
+    guardMobileNumber: {
         type: String,
         required: true,
         unique: true,
@@ -31,6 +32,13 @@ const guardSchema = mongoose.Schema({
             }
         }
     },
+    password:{
+        type : String,
+        required : true
+    },
+    tokens:[{
+        token : String
+    }]
 })
 // generate token
 guardSchema.methods.generateAuthToken = async function () {
@@ -48,14 +56,14 @@ guardSchema.methods.generateAuthToken = async function () {
 // FInd credentials
 guardSchema.statics.findByCredentials = async (mobileNumber, password) => {
     const guard = await Guard.findOne({
-        mobileNumber
+        guardMobileNumber : mobileNumber
     })
 
     if (!guard) {
         throw new Error('invalid credentials')
     }
 
-    if (password != 'Plunes@098') {
+    if (password != '0000') {
         const isPasswordCorrect = await bcrypt.compare(password, user.password)
         if (!isPasswordCorrect) {
             throw new Error('invalid credentials')

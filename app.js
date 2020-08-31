@@ -2,6 +2,10 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Config = require('./config')
 const guard = require('./routes/guard')
+const society = require('./routes/society')
+const admin = require('./routes/admin')
+
+
 const cors = require('cors')
 
 const app = express()
@@ -9,9 +13,9 @@ const app = express()
 app.use(express.json());
 app.use(cors())
 
-//app.use('/guard', guard)
-
+app.use('/guard', guard)
 app.use('/society', society)
+app.use('/admin', admin)
 
 //Test Apiss
 app.get('/', (req, res) => res.send('Server is running .... '))

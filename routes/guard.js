@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const guardAuth = require('../middleware/auth')
+const {guardAuth} = require('../middleware/auth')
 const Guard = require('../models/guard')
 const Resident = require('../models/resident')
 const mongoose = require('mongoose')
+const Config = require('../config')
 
 const ObjectId = mongoose.Types.ObjectId
 
@@ -37,9 +38,10 @@ router.post('/login', async (req, res) => {
             mobileNumber,
             password,
         } = req.body
+        console.log(req.body)
         const guard = await Guard.findByCredentials(mobileNumber, password)
         const token = await guard.generateAuthToken()
-        await user.save()
+        await guard.save()
         res.status(201).json({
             success: true,
             guard,
@@ -105,3 +107,4 @@ router.post('/addVisitor' , guardAuth,  async (req, res) => {
 
     }
 })
+module.exports = router;
