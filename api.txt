@@ -2,7 +2,7 @@ Society API
 
 1) Api for Creating Society
     
-    url - http://localhost:5000/createSociety
+    url - http://localhost:5000/society/createSociety
     method - POST
     body - {
 	"societyName" : "Tarika Apartments",
@@ -12,7 +12,7 @@ Society API
 }
 
 2) API to get society details
-    url - http://localhost:5000/getSociety/7340448459
+    url - http://localhost:5000/society/getSociety/7340448459
     method : GET
     params - MobileNumber
 
