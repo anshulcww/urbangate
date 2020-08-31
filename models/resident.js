@@ -24,6 +24,10 @@ const residentSchema = mongoose.Schema({
     societyId : {
         type : String,
         required : true
+    },
+    guardId : {
+        type : String,
+        required : true
     }
 })
 

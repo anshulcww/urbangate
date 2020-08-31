@@ -68,7 +68,8 @@ router.post('/addVisitor' , guardAuth,  async (req, res) => {
             mobileNo,
             vehicleNo,
             residentId,
-            visitorAddress
+            visitorAddress,
+            guardId
         } = req.body
 
         //Get residentId details
@@ -92,6 +93,7 @@ router.post('/addVisitor' , guardAuth,  async (req, res) => {
             checkInTime: checkInTime,
             visitorImageUrl: visitorImageUrl,
             contactPerson: contactPerson,
+            guardId : guardId
         })
         await visitor.save()
         res.status(201).json({

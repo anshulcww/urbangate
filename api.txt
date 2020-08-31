@@ -1,3 +1,32 @@
+-------------GUARD API---------------
+1) LOGIN API
+    url - http://localhost:5000/guard/login
+    method - POST
+    body -{
+        "mobileNumber" : "0987654321",
+        "password" : "0000"
+    }
+
+2) CHECK PREAPPROVED API
+    url - http://localhost:5000/guard/isPreApproved
+    method - GET
+    headers - Bearer token
+
+3) ADD VISITOR
+    url - http://localhost:5000/guard/addVisitor
+    method - POST
+    body : {
+        flatNo : "112",
+        visitorName,
+        contactPerson,
+        visitorImageUrl,
+        mobileNo,
+        vehicleNo,
+        residentId,
+        visitorAddress,
+        guardId
+    }    
+
 -------------SOCIETY API---------------
 
 1) Api for Creating Society
