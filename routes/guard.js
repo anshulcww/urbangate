@@ -8,6 +8,26 @@ const Config = require('../config')
 
 const ObjectId = mongoose.Types.ObjectId
 
+// Check guard 
+router.get('/checkGuard/:phoneNumber', async (req, res) => {
+    try{
+        let society = await Society.find({
+            phoneNumber : req.params.phoneNumber
+        })
+        res.status(201).send({
+            success :  true,
+            data :  society
+        })
+    }catch(err){
+        console.log(err)
+        res.status(400).send({
+            success : false,
+            err : err
+        })
+    }
+})
+
+
 // Api for pre approved visitors
 router.get('/isPreApproved', guardAuth, async (req, res) => {
     try{

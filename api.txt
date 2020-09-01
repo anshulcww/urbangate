@@ -1,3 +1,4 @@
+
 -------------GUARD API---------------
 1) LOGIN API
     url - http://localhost:5000/guard/login
@@ -26,6 +27,11 @@
         visitorAddress,
         guardId
     }    
+4) To check if guard added to the society or not
+    url - http://localhost:5000/guard/checkGuard/7340448459
+    method : GET
+    params - MobileNumber
+
 
 -------------SOCIETY API---------------
 
@@ -69,6 +75,6 @@
         "address" : "aasdad",
         "societyId" : "5f4d0f8290d74f259b673f90"
     }
-    headers : Bearer Token
+    headers : Bearer "TOKEN"
 
 
