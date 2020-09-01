@@ -1,7 +1,10 @@
 
 -------------GUARD API---------------
+
+   Dummy Guard Auth token - "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkNDBhNmY0ZjQ1YzUzODhjNWQ2NzciLCJpYXQiOjE1OTg5NjM3NjJ9.dBXd-xisVJGbuT3foXkqcQyQfeClCyzzUfXPjshiu_k"
+
 1) LOGIN API
-    url - http://localhost:5000/guard/login
+    url - http://18.218.101.128:5000/guard/login
     method - POST
     body -{
         "mobileNumber" : "0987654321",
@@ -9,35 +12,42 @@
     }
 
 2) CHECK PREAPPROVED API
-    url - http://localhost:5000/guard/isPreApproved
+    url - http://18.218.101.128:5000/guard/isPreApproved
     method - GET
-    headers - Bearer token
+    headers - Bearer "TOKEN"
 
 3) ADD VISITOR
-    url - http://localhost:5000/guard/addVisitor
+    url - http://18.218.101.128:5000/guard/addVisitor
     method - POST
     body : {
-        flatNo : "112",
-        visitorName,
-        contactPerson,
-        visitorImageUrl,
-        mobileNo,
-        vehicleNo,
-        residentId,
-        visitorAddress,
-        guardId
-    }    
+	    "appartmentId" : "5f4eb1a18e7ecd1ae7c2f2f0",
+        "visitorName" : "asd",
+        "contactPerson" : "adsc",
+        "visitorImageUrl" : "",
+        "mobileNo" : "1234567890",
+        "vehicleNo" : "",
+        "visitorAddress" : ""
+    }
+    headers : Bearer "TOKEN"
+
 4) To check if guard added to the society or not
-    url - http://localhost:5000/guard/checkGuard/7340448459
+    url - http://18.218.101.128:5000/guard/checkGuard/7340448459
     method : GET
     params - MobileNumber
 
+5) CHECK IN TIME For visitor
+    url - http://18.218.101.128:5000/guard/visitorCheckIn
+    method - PUT
+    body -{
+      	"visitorId" : "5f4ed6685bd9aa499d68d787",
+	    "checkInTime": 1598998120996
+    }
 
 -------------SOCIETY API---------------
 
 1) Api for Creating Society
     
-    url - http://localhost:5000/society/createSociety
+    url - http://18.218.101.128:5000/society/createSociety
     method - POST
     body - {
 	"societyName" : "Tarika Apartments",
@@ -47,14 +57,16 @@
 }
 
 2) API to get society details
-    url - http://localhost:5000/society/getSociety/7340448459
+    url - http://18.218.101.128:5000/society/getSociety/7340448459
     method : GET
     params - MobileNumber
 
 ----------------ADMIN API-----------------
 
+   Dummy Admin Auth token "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkMTNmZWRiYjkwYjI5NmQxYzg5MTEiLCJpYXQiOjE1OTg4ODY5MTB9.j8T6uyYcCL_Zq5k7okdZCqIPe-LcxzBgGdX16HCgmOg"
+
 1) REGISTER API ADMIN
-    url - http://localhost:5000/admin/register
+    url - http://18.218.101.128:5000/admin/register
     method : POST
     body : {
         "societyId" : "5f4d0f8290d74f259b673f90",
@@ -66,15 +78,30 @@
     }
 
 2) ADD GUARD API
-    url - http://localhost:5000/admin/addGuard
+    url - http://18.218.101.128:5000/admin/addGuard
     method : POST
     body : {
-        "adminId" : "5f4d13fedbb90b296d1c8911",
         "guardName": "asdsd",
-        "guardMobileNumber" :"122342345",
+        "guardMobileNumber" :"0987654321",
         "address" : "aasdad",
-        "societyId" : "5f4d0f8290d74f259b673f90"
     }
     headers : Bearer "TOKEN"
 
+3) ADD RESIDENT API
+    url - http://18.218.101.128:5000/admin/addResident
+    method : POST
+    body : {
+        "residentName": "asdsd",
+        "residentMobileNumber" :"0987654321",
+        "flatId" : "",
+    }
+    headers : Bearer "TOKEN"    
+
+4) ADD APPARTMENT API
+    url - http://18.218.101.128:5000/admin/addAppartment
+    method : POST
+    body : {
+       "appartment" : "B 402",
+    }
+    headers : Bearer "TOKEN" 
 

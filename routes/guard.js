@@ -1,12 +1,41 @@
+
 const express = require('express')
 const router = express.Router()
 const {guardAuth} = require('../middleware/auth')
 const Guard = require('../models/guard')
 const Resident = require('../models/resident')
+const Visitor = require('../models/visitor')
+
 const mongoose = require('mongoose')
 const Config = require('../config')
 
 const ObjectId = mongoose.Types.ObjectId
+
+
+// Check IN Api for Visitor
+router.put('/visitorCheckIn', guardAuth, async (req, res) => {
+    try{
+        const {
+            visitorId,
+            checkInTime
+        } = req.body
+        let date = new Date(checkInTime)
+        let result = await Visitor.updateOne({_id : ObjectId(visitorId)},{ $set: { checkInTime: date} })
+        // let visitor = await Visitor.findOne({_id : ObjectId(visitorId)})
+        // visitor.address = "ajggj"
+        // let result  = await visitor.save()
+        res.status(201).send({
+            success : true,
+            data : result
+        })
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success : false,
+            error : error
+        })
+    }
+})
 
 // Check guard 
 router.get('/checkGuard/:phoneNumber', async (req, res) => {
@@ -22,19 +51,19 @@ router.get('/checkGuard/:phoneNumber', async (req, res) => {
         console.log(err)
         res.status(400).send({
             success : false,
-            err : err
+            error : err
         })
     }
 })
 
 
 // Api for pre approved visitors
-router.get('/isPreApproved', guardAuth, async (req, res) => {
+router.get('/isPreApproved/:mobileNumber', guardAuth, async (req, res) => {
     try{
     let visitorSocietyId = req.guard.societyId
     let visitorDet = await Visitor.find({
         societyId :  visitorSocietyId,
-        isPreapproved : true
+        isPreapproved : true,
     }).sort({_id : -1})
     
     res.status(201).send({
@@ -80,45 +109,44 @@ router.post('/login', async (req, res) => {
 // For Adding Visitor
 router.post('/addVisitor' , guardAuth,  async (req, res) => {
     try {
+        
+        let guardId = req.guard._id
+        let societyId = req.guard.societyId
         const {
-            flatNo,
+            appartmentId,
             visitorName,
             contactPerson,
             visitorImageUrl,
             mobileNo,
             vehicleNo,
-            residentId,
             visitorAddress,
-            guardId
         } = req.body
-
+       
         //Get residentId details
-        let resDetails = await Resident.find({_id : ObjectId(residentId)})
+        let resDetails = await Resident.find({appartmentId : appartmentId})
         let message = `Hi! ${visitorName} requested you to accept the permission for entering in the society`
-
-        // Send Notification to the resident
-        if (resDetails && resDetails.deviceIds && resDetails.deviceIds.length > 0) {
-            console.log(resDetails.name)
-            await Notification.push(resDetails.deviceIds, 'Entry Permission', message, 'visitor')
-        }
-
+        
+        // if(resDetails && resDetails.length > 0){
+        //     for(let i = 0; i < resDetails.length; i++){
+        //         console.log(resDetails.name)
+        //         await Notification.push(resDetails[i].deviceIds, 'Entry Permission', message, 'visitor')
+        //     }
+        // }
         const visitor = new Visitor({
-            residentId: residentId,
-            residentId: residentId,
+            appartmentId: appartmentId      ,
             visitorAddress: visitorAddress,
             visitorPhoneNumber: mobileNo,
             vehicleNo: vehicleNo,
-            flatNo: flatNo,
             isPreapproved: false,
-            checkInTime: checkInTime,
             visitorImageUrl: visitorImageUrl,
             contactPerson: contactPerson,
-            guardId : guardId
+            guardId,
+            societyId
         })
-        await visitor.save()
+        let result  = await visitor.save()
         res.status(201).json({
             success: true,
-            message:  'notification send to the resident'
+            data:  result
         })
     } catch (error) {
         console.log(error)

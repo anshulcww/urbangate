@@ -6,7 +6,7 @@ const residentSchema = mongoose.Schema({
         type :  String,
         required : true
     },
-    flatNo : {
+    appartmentId : {
         type : String,
         required : true
     },
@@ -25,7 +25,7 @@ const residentSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    guardId : {
+    adminId : {
         type : String,
         required : true
     }

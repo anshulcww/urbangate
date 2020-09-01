@@ -2,17 +2,13 @@
 const mongoose = require('mongoose')
 
 const visitorSchema = mongoose.Schema({
-    residentId : {
+    appartmentId : {
         type : String,
-        required : true
-    },
-    residentId : {
-        type :  String,
         required : true
     },
     visitorAddress : {
         type : String,
-        required : true
+        // required : true
     },
     visitorPhoneNumber : {
         type : Number,
@@ -32,7 +28,7 @@ const visitorSchema = mongoose.Schema({
         default : false
     },
     checkInTime : {
-        type : Number
+        type : Date
     },
     checkOutTime : {
         type : Number
@@ -43,16 +39,20 @@ const visitorSchema = mongoose.Schema({
     status : {
         type: String,
         enum: ['accepted', 'declined'],
-        required: true
+        // required: true
     },
     societyId : {
         type:  String,
         required: true
+    },
+    guardId : {
+        type : String,
+        required : true
     }
 })
 
 // Add Visitor
-guardSchema.statics.addVisitor = async (mobileNumber, password) => {
+visitorSchema.statics.addVisitor = async (mobileNumber, password) => {
     // const guard = await Guard.findOne({
     //     mobileNumber
     // })

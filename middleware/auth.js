@@ -4,6 +4,31 @@ const Guard = require('../models/guard')
 const Admin = require('../models/admin')
 const Config = require('../config')
 
+const residentAuth = async (req, res, next) => {
+    try {
+        // console.log(req.baseUrl)
+        const token = req.header('Authorization').replace('Bearer ', '')
+        // console.log('Token:', token)
+        const data = jwt.verify(token, Config.JWT_KEY)
+        const resident = await Resident.findOne({
+            _id: data._id,
+            'tokens.token': token
+        })
+        if (!resident) {
+            throw new Error({
+                error: 'invalid user'
+            })
+        }
+        req.resident = resident
+        req.token = token
+        next()
+    } catch (error) {
+        res.status(401).send({
+            error: 'not authorized'
+        })
+    }
+}
+
 
 const adminAuth = async (req, res, next) => {
     try {
@@ -42,7 +67,7 @@ const guardAuth = async (req, res, next) => {
             _id: data._id,
             'tokens.token': token
         })
-        if (!user) {
+        if (!guard) {
             throw new Error({
                 error: 'invalid user'
             })
@@ -51,10 +76,11 @@ const guardAuth = async (req, res, next) => {
         req.token = token
         next()
     } catch (error) {
+        console.log(error)
         res.status(401).send({
             error: 'not authorized'
         })
     }
 }
 
-module.exports = {guardAuth, adminAuth}
+module.exports = {guardAuth, adminAuth, residentAuth}

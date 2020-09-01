@@ -21,7 +21,7 @@ router.get('/getAllSocieties', async (req, res) => {
 })
 
 // Create society
-router.post('/createSociety',async (req, res) => {
+router.post('/addSociety',async (req, res) => {
     try{
         const {
             societyName,
