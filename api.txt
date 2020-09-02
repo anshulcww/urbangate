@@ -46,6 +46,11 @@
 6) WHO AM I 
     url - http://18.218.101.128:5000/guard/whoami
     headers - "Bearer token"
+
+7) GET ALL APPARTMENTS
+    url - http://18.218.101.128:5000/guard/appartments
+    headers - "Bearer token"
+
     
 -------------SOCIETY API---------------
 
