@@ -17,9 +17,6 @@ const visitorSchema = mongoose.Schema({
     vehicleNo : {
         type : String,
     },
-    flatNo : {
-        type : String
-    },
     contactPerson : {
         type : String
     },
@@ -31,7 +28,7 @@ const visitorSchema = mongoose.Schema({
         type : Date
     },
     checkOutTime : {
-        type : Number
+        type : Date
     },
     visitorImageUrl : {
         type :  String
@@ -51,18 +48,6 @@ const visitorSchema = mongoose.Schema({
     }
 })
 
-// Add Visitor
-visitorSchema.statics.addVisitor = async (mobileNumber, password) => {
-    // const guard = await Guard.findOne({
-    //     mobileNumber
-    // })
-
-    // if (!guard) {
-    //     throw new Error('invalid credentials')
-    // }
-
-    return guard
-}
 
 
 const Visitor = mongoose.model('visitor', visitorSchema)

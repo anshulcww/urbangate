@@ -4,12 +4,42 @@ const router = express.Router()
 const {guardAuth} = require('../middleware/auth')
 const Guard = require('../models/guard')
 const Resident = require('../models/resident')
+const Appartment = require('../models/appartment')
+
 const Visitor = require('../models/visitor')
 
 const mongoose = require('mongoose')
 const Config = require('../config')
 
 const ObjectId = mongoose.Types.ObjectId
+
+// Get All Appartment
+router.get('/appartments', guardAuth, async (req, res) => {
+    try{
+        console.log(req.guard)
+        let societyId = req.guard.societyId
+        let appartments =  await Appartment.find({
+            societyId :  societyId
+        })
+        if(appartments && appartments.length > 0){
+            res.status(201).send({
+                success : true,
+                data : appartments
+            })
+        }else{
+            res.status(201).send({
+                success : false,
+                message : "No Apparment"
+            })
+        }
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success : false,
+            error : error
+        })
+    }
+})
 
 // WHO AM I????
 router.get('/whoami', guardAuth, async (req, res) => {
@@ -20,7 +50,7 @@ router.get('/whoami', guardAuth, async (req, res) => {
         console.log(error)
         res.status(400).send({
             success : false,
-            error : err
+            error : error
         })
     }
 })

@@ -109,3 +109,6 @@
     }
     headers : Bearer "TOKEN" 
 
+5) WHO AM I Admin
+    url - http://18.218.101.128:5000/admin/whoami
+    headers - "Bearer token"

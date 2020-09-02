@@ -6,6 +6,21 @@ const Resident = require('../models/resident')
 const Appartment = require('../models/appartment')
 const {adminAuth} = require('../middleware/auth')
 
+
+// WHO AM I????
+router.get('/whoami', adminAuth, async (req, res) => {
+    try{
+        let guard = req.guard
+        res.status(201).send(guard)
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success : false,
+            error : error
+        })
+    }
+})
+
 // Add Appartment
 router.post('/addAppartment', adminAuth, async (req, res) => {
     try{
