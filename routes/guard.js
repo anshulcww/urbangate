@@ -11,7 +11,19 @@ const Config = require('../config')
 
 const ObjectId = mongoose.Types.ObjectId
 
-
+// WHO AM I????
+router.get('/whoami', guardAuth, async (req, res) => {
+    try{
+        let guard = req.guard
+        res.status(201).send(guard)
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success : false,
+            error : err
+        })
+    }
+})
 // Check IN Api for Visitor
 router.put('/visitorCheckIn', guardAuth, async (req, res) => {
     try{

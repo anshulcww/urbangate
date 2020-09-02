@@ -43,6 +43,10 @@
 	    "checkInTime": 1598998120996
     }
 
+6) WHO AM I 
+    url - http://18.218.101.128:5000/guard/whoami
+    headers - "Bearer token"
+    
 -------------SOCIETY API---------------
 
 1) Api for Creating Society
