@@ -60,7 +60,7 @@ router.post('/addResident', adminAuth, async (req, res) => {
             societyId,
             adminId,
             residentName,
-            phoneNumber : residentMobileNumber,
+            residentMobileNumber,
             appartmentId
         })
         // let pass = Math.floor(1000 + Math.random() * 9000);
@@ -92,7 +92,13 @@ router.post('/addGuard', adminAuth, async (req, res) => {
         } = req.body
         let societyId = req.admin.societyId
         let adminId = req.admin._id
-        let guard = new Guard(req.body)
+        let guard = new Guard({
+        adminId,
+        societyId,
+        guardName,
+        guardMobileNumber,
+        address
+        })
         let pass = Math.floor(1000 + Math.random() * 9000);
         guard.password = pass
         let result = await guard.save()
@@ -118,7 +124,7 @@ router.post('/register', async (req, res) => {
         societyId,
         adminName,
         address,
-        phoneNumber,
+        adminMobileNumber,
         email,
         password
        } = req.body

@@ -10,7 +10,7 @@ const residentSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    phoneNumber : {
+    residentMobileNumber : {
         type : Number,
         required : true
     },

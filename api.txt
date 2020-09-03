@@ -22,32 +22,24 @@
     body : {
 	    "appartmentId" : "5f4eb1a18e7ecd1ae7c2f2f0",
         "visitorName" : "asd",
-        "contactPerson" : "adsc",
         "visitorImageUrl" : "",
-        "mobileNo" : "1234567890",
+        "visitorMobileNumber" : "1234567890",
         "vehicleNo" : "",
         "visitorAddress" : ""
     }
     headers : Bearer "TOKEN"
 
-4) To check if guard added to the society or not
-    url - http://18.218.101.128:5000/guard/checkGuard/7340448459
+4) To check if visitor added to the society or not
+    url - http://18.218.101.128:5000/guard/1234567890
     method : GET
     params - MobileNumber
 
-5) CHECK IN TIME For visitor
-    url - http://18.218.101.128:5000/guard/visitorCheckIn
-    method - PUT
-    body -{
-      	"visitorId" : "5f4ed6685bd9aa499d68d787",
-	    "checkInTime": 1598998120996
-    }
 
-6) WHO AM I 
+5) WHO AM I 
     url - http://18.218.101.128:5000/guard/whoami
     headers - "Bearer token"
 
-7) GET ALL APPARTMENTS
+6) GET ALL APPARTMENTS
     url - http://18.218.101.128:5000/guard/appartments
     headers - "Bearer token"
 
@@ -61,7 +53,7 @@
     body - {
 	"societyName" : "Tarika Apartments",
 	"address" : "sector 43",
-	"phoneNumber" : "7340448459",
+	"societyMobileNumber" : "7340448459",
 	"email" : "anshulverma96@gmail.com"
 }
 
@@ -81,7 +73,7 @@
         "societyId" : "5f4d0f8290d74f259b673f90",
         "adminName": "Mr. Anshul Verma",
         "address" : "Sector 47",
-        "phoneNumber" : "0987654321",
+        "adminMobileNumber" : "0987654321",
         "email" : "anshul@gmail.com",
         "password" : "1234567890"
     }

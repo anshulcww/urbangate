@@ -11,7 +11,7 @@ const societySchema = mongoose.Schema({
         type : String,
         required : true
     },
-    phoneNumber : {
+    societyMobileNumber : {
         type : Number,
         required : true
     },

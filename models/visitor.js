@@ -2,50 +2,25 @@
 const mongoose = require('mongoose')
 
 const visitorSchema = mongoose.Schema({
-    appartmentId : {
+    visitorName : {
         type : String,
-        required : true
+        // required : true
     },
     visitorAddress : {
         type : String,
         // required : true
     },
-    visitorPhoneNumber : {
+    visitorMobileNumber : {
         type : Number,
-        required : true
+        required : true,
+        unique : true
     },
     vehicleNo : {
         type : String,
     },
-    contactPerson : {
-        type : String
-    },
-    isPreapproved : {
-        type : Boolean,
-        default : false
-    },
-    checkInTime : {
-        type : Date
-    },
-    checkOutTime : {
-        type : Date
-    },
     visitorImageUrl : {
         type :  String
     },
-    status : {
-        type: String,
-        enum: ['accepted', 'declined'],
-        // required: true
-    },
-    societyId : {
-        type:  String,
-        required: true
-    },
-    guardId : {
-        type : String,
-        required : true
-    }
 })
 
 
