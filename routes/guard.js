@@ -56,8 +56,6 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
             visitorObj  = await visitor.save()
         }
         // Check Preapproval
-
-
         let entryLog = new VisitorEntryLogs({
             appartmentId,
             visitorId : visitorObj._id,
