@@ -9,11 +9,11 @@ const {residentAuth} = require('../middleware/auth')
 
 
 //  Visitor pre approved request API
-router.post('/visitorPreApproved', residentAuth, async (req, res) => {
+router.post('/visitorPreApproved', async (req, res) => {
         try{
-            let societyId = req.resident.societyId;
-            let appartmentId = req.resident.appartmentId;
-            let residentId = req.resident.residentId;
+            let societyId = req.resident.societyId || "asasdasd";
+            let appartmentId = req.resident.appartmentId || "asdasdasd";
+            let residentId = req.resident.residentId || "asdasswq";
             let visitorObj;;
             const {
                 visitorName,

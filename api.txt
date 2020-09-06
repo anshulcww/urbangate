@@ -30,7 +30,7 @@
     headers : Bearer "TOKEN"
 ____NOTE -  If visitor already exist then add "visitorId"
 
-4) To check if visitor added to the society or not
+4) To check if visitor added or not
     url - http://18.218.101.128:5000/guard/1234567890
     method : GET
     params - MobileNumber
@@ -110,3 +110,14 @@ ____NOTE -  If visitor already exist then add "visitorId"
 5) WHO AM I Admin
     url - http://18.218.101.128:5000/admin/whoami
     headers - "Bearer token"
+
+
+--------Resident API----------
+
+1) ADD APPARTMENT API
+    url - http://18.218.101.128:5000/admin/addAppartment
+    method : POST
+    body : {
+       "appartment" : "B 402",
+    }
+    headers : Bearer "TOKEN" 

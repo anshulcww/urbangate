@@ -8,6 +8,8 @@ const Appartment = require('../models/appartment')
 
 const Visitor = require('../models/visitor')
 
+const VisitorEntryLogs = require('../models/visitorEntryLogs')
+
 const mongoose = require('mongoose')
 const Config = require('../config')
 
@@ -21,7 +23,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         let guardId = req.guard._id
         let societyId = req.guard.societyId
         const {
-            appartmentId,
+            appartmentId, 
             visitorName,
             // visitorImageUrl,
             visitorMobileNumber,
@@ -32,7 +34,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         } = req.body
         
         let visitorObj;
-        let result;
+        let isPreApproved = false;
         if(visitorId){
             // Update Query
             let visDetails = await Visitor.findOne({_id : ObjectId(visitorId)})
@@ -42,8 +44,18 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
             visDetails.visitorAddress = visitorAddress,
             visDetails.checkInTime = checkInTime,
             visitorObj = await visDetails.save()
+
             // Check Pre Approval
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
             
+            today = mm + '-' + dd + '-' + yyyy;
+            let preApprovedObj =  await VisitorPreApproved.findOne({visitorId : visitorId , preApprovedDate : today})
+            if(preApprovedObj){
+                isPreApproved = true
+            }
                             
         }else{
             let visitor = new Visitor({
@@ -55,7 +67,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
             })
             visitorObj  = await visitor.save()
         }
-        // Check Preapproval
+
         let entryLog = new VisitorEntryLogs({
             appartmentId,
             visitorId : visitorObj._id,
@@ -66,6 +78,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         await entryLog.save()
         res.status(201).json({
             success: true,
+            isPreApproved: isPreApproved,
             data: visitorObj
         })
         // Get residentId details
