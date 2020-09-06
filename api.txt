@@ -20,18 +20,20 @@
     url - http://18.218.101.128:5000/guard/addVisitor
     method - POST
     body : {
-	    "appartmentId" : "5f4eb1a18e7ecd1ae7c2f2f0",
-        "visitorName" : "asd",
-        "visitorMobileNumber" : "1234567890",
-        "vehicleNo" : "",
-        "visitorAddress" : "",
-        "checkInTime" : "TIMESTAMP"
+			"appartmentId" : "5f4eb1a18e7ecd1ae7c2f2f0",
+            "visitorName" : "Anshul Verma",
+            "contactPerson" : "adsc",
+            "visitorImageUrl" : "",
+            "visitorMobileNumber" : "1234567890",
+            "vehicleNo" : "",
+            "visitorAddress" : "",
+            "checkInTime" : "1599377811995"
     }
     headers : Bearer "TOKEN"
 ____NOTE -  If visitor already exist then add "visitorId"
 
 4) To check if visitor added or not
-    url - http://18.218.101.128:5000/guard/1234567890
+    url - http://18.218.101.128:5000/guard/checkVisitor/9876543210
     method : GET
     params - MobileNumber
 
