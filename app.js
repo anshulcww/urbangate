@@ -5,7 +5,19 @@ const guard = require('./routes/guard')
 const society = require('./routes/society')
 const admin = require('./routes/admin')
 const multer = require('multer')
+const multerS3 = require("multer-s3");
+
 var AWS = require('aws-sdk');
+
+var accessKeyId = process.env.AWS_ACCESS_KEY || "AKIAJDYYMNPANZF4JLXQ";
+var secretAccessKey = process.env.AWS_SECRET_KEY || "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";
+
+AWS.config.update({
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey
+});
+
+var s3 = new AWS.S3();
 
 
 const cors = require('cors')
@@ -32,42 +44,42 @@ mongoose.connect(Config.MONGODB_URL, {
     useCreateIndex: true,
     useUnifiedTopology: true
 }, (err, doc) => {
-    if(err) {
+    if (err) {
         console.log(err)
-    }else{
+    } else {
         console.log('database created')
-        
-    }
-})
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public')
-    },
-    filename: function (req, file, cb) {
-        console.log(file.originalname)
-        file.originalname = file.originalname.split('.')[0] + (file.originalname.split('.')[1] ? "." + file.originalname.split('.')[1].toLowerCase() : '')
-        cb(null, Date.now() + '-' + file.originalname)
     }
 })
 
 const upload = multer({
-    storage: storage
-}).single('file', 10)
+    // fileFilter,
+    storage: multerS3({
+      acl: "public-read",
+      s3,
+      bucket: "profile-image-urbangate",
+      metadata: function (req, file, cb) {
+        cb(null, { fieldName: "TESTING_METADATA" });
+      },
+      key: function (req, file, cb) {
+        cb(null, Date.now().toString());
+      },
+    }),
+  });
 
-app.post('/upload', function (req, res) {
-    // console.log(req)
-    upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            return res.status(500).json(err)
-        } else if (err) {
-            return res.status(500).json(err)
-        }
-        req.file.filename = req.file.filename.split('.')[0] + (req.file.filename.split('.')[1] ? "." + req.file.filename.split('.')[1].toLowerCase() : '')
-        return res.status(200).send(req.file)
-    })
-})
 
+
+app.post('/upload', upload.single('file'), function (req, res) {
+    // console.log(req.file)
+    if (req.file !== undefined) { // `image` is the field name from your form
+        res.status(201).send({
+            success : true,
+            imageUrl : req.file.location
+        }); // success
+    } else {
+        res.send("error, no file chosen");
+    }
+});
 
 const server = app.listen(process.env.PORT || 5000, () => {
     console.log(`server running on port `)

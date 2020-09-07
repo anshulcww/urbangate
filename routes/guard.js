@@ -85,7 +85,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         const {
             appartmentId,
             visitorName,
-            // visitorImageUrl,
+            visitorImageUrl,
             visitorMobileNumber,
             vehicleNo,
             visitorAddress,
@@ -98,11 +98,12 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         if (visitorId) {
             // Update Query
             let visDetails = await Visitor.findOne({ _id: ObjectId(visitorId) })
-            visDetails.visitorName = visitorName,
-                visDetails.visitorMobileNumber = visitorMobileNumber,
-                visDetails.vehicleNo = vehicleNo,
-                visDetails.visitorAddress = visitorAddress,
-                visDetails.checkInTime = checkInTime,
+            visDetails.visitorName = visitorName
+                visDetails.visitorMobileNumber = visitorMobileNumber
+                visDetails.vehicleNo = vehicleNo
+                visDetails.visitorAddress = visitorAddress
+                visDetails.checkInTime = checkInTime
+                visDetails.visitorImageUrl = visitorImageUrl
                 visitorObj = await visDetails.save()
 
             // Check Pre Approval
@@ -122,6 +123,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
                 visitorName,
                 visitorMobileNumber,
                 vehicleNo,
+                visitorImageUrl,
                 visitorAddress,
                 checkInTime
             })

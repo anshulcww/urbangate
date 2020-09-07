@@ -143,3 +143,14 @@ ____NOTE -  If visitor already exist then add "visitorId"
        "appartment" : "B 402",
     }
     headers : Bearer "TOKEN" 
+
+---------------- UPLOAD API-----------------------
+
+1)  Upload images
+
+    url - http://18.218.101.128:5000/upload
+    method : POST
+    headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+    IMPORTANT - add key : "file" 
