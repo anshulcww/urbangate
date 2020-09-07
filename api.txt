@@ -46,6 +46,15 @@ ____NOTE -  If visitor already exist then add "visitorId"
     url - http://18.218.101.128:5000/guard/appartments
     headers - "Bearer token"
 
+
+7) ADD Daily Helper Entry
+    url - http://18.218.101.128:5000/guard/dailyHelperEntry
+    method - POST
+    body : {
+			"helperMobileNumber" : "9875543210",
+	        "checkInTime" : "1599377811995"
+    }
+    headers : Bearer "TOKEN"
     
 -------------SOCIETY API---------------
 

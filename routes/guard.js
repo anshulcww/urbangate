@@ -10,10 +10,70 @@ const Visitor = require('../models/visitor')
 
 const VisitorEntryLogs = require('../models/visitorEntryLogs')
 
+const DailyHelper = require('../models/dailyHelper')
+
+const DailyHelperEntryLogs = require('../models/dailyHelperEntryLogs')
+
+
 const mongoose = require('mongoose')
 const Config = require('../config')
 
 const ObjectId = mongoose.Types.ObjectId
+
+// Check Helper and if exists send notification to residents
+// and add entry into dailyhelp entry table
+
+router.post('/dailyHelperEntry', guardAuth, async (req, res) => {
+    try {
+        let guardId = req.guard._id
+        let societyId = req.guard.societyId
+        const {
+            helperMobileNumber,
+            checkInTime
+        } = req.body
+
+        // check if helper is registered
+        let checkHelper = await DailyHelper.findOne({
+            societyId: societyId,
+            helperMobileNumber: helperMobileNumber
+        }, (err, result) => {
+            if (err) {
+                res.status(201).send({
+                    success: false,
+                    message: err
+                })
+            }
+        })
+        if (checkHelper) {
+            let appartmentIds = checkHelper.appartmentIds
+            let dailyHelperId = checkHelper._id
+            let helperEntryLog = new DailyHelperEntryLogs({
+                societyId,
+                guardId,
+                checkInTime,
+                appartmentIds,
+                dailyHelperId
+            })
+            let result = await helperEntryLog.save()
+            res.status(201).send({
+                success: true,
+                data: result
+            })
+        }else{
+            res.status(201).send({
+                success: true,
+                message: "Not registered"
+            })
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: 'Something went wrong'
+        })
+    }
+})
 
 
 // For Adding Visitor
@@ -23,7 +83,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         let guardId = req.guard._id
         let societyId = req.guard.societyId
         const {
-            appartmentId, 
+            appartmentId,
             visitorName,
             // visitorImageUrl,
             visitorMobileNumber,
@@ -32,32 +92,32 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
             visitorId,
             checkInTime
         } = req.body
-        
+
         let visitorObj;
         let isPreApproved = false;
-        if(visitorId){
+        if (visitorId) {
             // Update Query
-            let visDetails = await Visitor.findOne({_id : ObjectId(visitorId)})
+            let visDetails = await Visitor.findOne({ _id: ObjectId(visitorId) })
             visDetails.visitorName = visitorName,
-            visDetails.visitorMobileNumber = visitorMobileNumber,
-            visDetails.vehicleNo = vehicleNo,
-            visDetails.visitorAddress = visitorAddress,
-            visDetails.checkInTime = checkInTime,
-            visitorObj = await visDetails.save()
+                visDetails.visitorMobileNumber = visitorMobileNumber,
+                visDetails.vehicleNo = vehicleNo,
+                visDetails.visitorAddress = visitorAddress,
+                visDetails.checkInTime = checkInTime,
+                visitorObj = await visDetails.save()
 
             // Check Pre Approval
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();
-            
+
             today = mm + '-' + dd + '-' + yyyy;
-            let preApprovedObj =  await VisitorPreApproved.findOne({visitorId : visitorId , preApprovedDate : today})
-            if(preApprovedObj){
+            let preApprovedObj = await VisitorPreApproved.findOne({ visitorId: visitorId, preApprovedDate: today })
+            if (preApprovedObj) {
                 isPreApproved = true
             }
-                            
-        }else{
+
+        } else {
             let visitor = new Visitor({
                 visitorName,
                 visitorMobileNumber,
@@ -65,12 +125,12 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
                 visitorAddress,
                 checkInTime
             })
-            visitorObj  = await visitor.save()
+            visitorObj = await visitor.save()
         }
 
         let entryLog = new VisitorEntryLogs({
             appartmentId,
-            visitorId : visitorObj._id,
+            visitorId: visitorObj._id,
             guardId,
             checkInTime,
             societyId
@@ -92,7 +152,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         //     }
         // }
 
-      
+
     } catch (error) {
         console.log(error)
         res.status(400).send({

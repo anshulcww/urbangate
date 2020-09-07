@@ -1,7 +1,7 @@
   
 const mongoose = require('mongoose')
 
-const dailyhelperSchema = mongoose.Schema({
+const dailyHelperSchema = mongoose.Schema({
     helperName : {
         type :  String,
         required : true
@@ -23,6 +23,6 @@ const dailyhelperSchema = mongoose.Schema({
     }
 })
 
-const Dailyhelper = mongoose.model('dailyhelper', dailyhelperSchema)
+const DailyHelper = mongoose.model('dailyHelper', dailyHelperSchema)
 
-module.exports = Dailyhelper
+module.exports = DailyHelper
