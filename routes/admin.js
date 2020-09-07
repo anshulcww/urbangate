@@ -5,7 +5,42 @@ const Guard = require('../models/guard')
 const Resident = require('../models/resident')
 const Appartment = require('../models/appartment')
 const {adminAuth} = require('../middleware/auth')
+const Dailyhelp = require('../models/dailyhelper')
 
+// Add Daily Help
+router.post('/addHelper', adminAuth, async (req, res) => {
+    try{
+        let societyId = req.admin.societyId
+        let adminId = req.admin._id
+        
+        const {
+            helperName,
+            helperMobileNumber,
+            appartmentIds,
+        } =  req.body
+
+        let dailyhelp = new Dailyhelp({
+            adminId,
+            societyId,
+            helperName,
+            helperMobileNumber,
+            appartmentIds
+        })
+
+        let result = await dailyhelp.save()
+        res.status(201).send({
+            success : true,
+            data : result
+        }) 
+
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success : false,
+            error : error
+        }) 
+    }
+})
 
 // WHO AM I????
 router.get('/whoami', adminAuth, async (req, res) => {

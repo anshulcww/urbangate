@@ -113,6 +113,17 @@ ____NOTE -  If visitor already exist then add "visitorId"
     url - http://18.218.101.128:5000/admin/whoami
     headers - "Bearer token"
 
+6) Add Helper
+    url : http://18.218.101.128:5000/admin/addHelper
+    method : POST
+    body : {
+        "helperName" : "Vinay Yadav helper",
+	    "helperMobileNumber" : "9876543210",
+	    "appartmentIds": [{
+		    "appartmentId" : "5f4eb1a18e7ecd1ae7c2f2f0"
+	    }]
+    }
+    headers : Bearer "TOKEN"
 
 --------Resident API----------
 
