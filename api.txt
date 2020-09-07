@@ -51,7 +51,7 @@ ____NOTE -  If visitor already exist then add "visitorId"
     url - http://18.218.101.128:5000/guard/dailyHelperEntry
     method - POST
     body : {
-			"helperMobileNumber" : "9875543210",
+			"helperMobileNumber" : "9876543210",
 	        "checkInTime" : "1599377811995"
     }
     headers : Bearer "TOKEN"
