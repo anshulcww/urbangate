@@ -9,12 +9,13 @@ const multerS3 = require("multer-s3");
 
 var AWS = require('aws-sdk');
 
+var accessKeyId = process.env.AWS_ACCESS_KEY || Config.accessKeyId;
+var secretAccessKey = process.env.AWS_SECRET_KEY || Config.secretAccessKey;
 
-
-// AWS.config.update({
-//     accessKeyId: accessKeyId,
-//     secretAccessKey: secretAccessKey
-// });
+AWS.config.update({
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey
+});
 
 var s3 = new AWS.S3();
 
@@ -51,34 +52,34 @@ mongoose.connect(Config.MONGODB_URL, {
     }
 })
 
-// const upload = multer({
-//     // fileFilter,
-//     storage: multerS3({
-//       acl: "public-read",
-//       s3,
-//       bucket: "profile-image-urbangate",
-//       metadata: function (req, file, cb) {
-//         cb(null, { fieldName: "TESTING_METADATA" });
-//       },
-//       key: function (req, file, cb) {
-//         cb(null, Date.now().toString());
-//       },
-//     }),
-//   });
+const upload = multer({
+    // fileFilter,
+    storage: multerS3({
+      acl: "public-read",
+      s3,
+      bucket: "profile-image-urbangate",
+      metadata: function (req, file, cb) {
+        cb(null, { fieldName: "TESTING_METADATA" });
+      },
+      key: function (req, file, cb) {
+        cb(null, Date.now().toString());
+      },
+    }),
+  });
 
 
 
-// app.post('/upload', upload.single('file'), function (req, res) {
-//     // console.log(req.file)
-//     if (req.file !== undefined) { // `image` is the field name from your form
-//         res.status(201).send({
-//             success : true,
-//             imageUrl : req.file.location
-//         }); // success
-//     } else {
-//         res.send("error, no file chosen");
-//     }
-// });
+app.post('/upload', upload.single('file'), function (req, res) {
+    // console.log(req.file)
+    if (req.file !== undefined) { // `image` is the field name from your form
+        res.status(201).send({
+            success : true,
+            imageUrl : req.file.location
+        }); // success
+    } else {
+        res.send("error, no file chosen");
+    }
+});
 
 const server = app.listen(process.env.PORT || 5000, () => {
     console.log(`server running on port `)
