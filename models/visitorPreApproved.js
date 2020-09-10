@@ -1,8 +1,8 @@
   
 const mongoose = require('mongoose')
 
-const VisitorPreApproved = mongoose.Schema({
-    appartmentId : {
+const VisitorPreApprovedSchema = mongoose.Schema({
+    apartmentId : {
         type : String,
         required : true
     },

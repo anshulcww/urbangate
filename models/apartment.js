@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const appartmentSchema = mongoose.Schema({
-    appartment : {
+const apartmentSchema = mongoose.Schema({
+    apartment : {
         type :  String,
         required : true,
         unique: true
@@ -16,6 +16,6 @@ const appartmentSchema = mongoose.Schema({
     },
 })
 
-const Appartment = mongoose.model('appartment', appartmentSchema)
+const Apartment = mongoose.model('apartment', apartmentSchema)
 
-module.exports = Appartment
+module.exports = Apartment

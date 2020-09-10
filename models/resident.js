@@ -6,13 +6,21 @@ const residentSchema = mongoose.Schema({
         type :  String,
         required : true
     },
-    appartmentId : {
+    apartmentId : {
         type : String,
         required : true
     },
     residentMobileNumber : {
-        type : Number,
-        required : true
+        type: String,
+        required: true,
+        unique: true,
+        validator: value => {
+            if (!validator.isMobilePhone(value)) {
+                throw new Error({
+                    error: 'invalid mobile number'
+                })
+            }
+        }
     },
     familyMembers : [{
         memberName: String,

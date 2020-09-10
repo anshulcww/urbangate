@@ -2,8 +2,8 @@
 const mongoose = require('mongoose')
 
 const dailyHelperEntryLogsSchema = mongoose.Schema({
-    appartmentIds : [{
-        appartmentId: String
+    apartmentIds : [{
+        apartmentId: String
     }],
     dailyHelperId : {
         type : String,

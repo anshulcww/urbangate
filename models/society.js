@@ -12,8 +12,16 @@ const societySchema = mongoose.Schema({
         required : true
     },
     societyMobileNumber : {
-        type : Number,
-        required : true
+        type: String,
+        required: true,
+        unique: true,
+        validator: value => {
+            if (!validator.isMobilePhone(value)) {
+                throw new Error({
+                    error: 'invalid mobile number'
+                })
+            }
+        }
     },
     email: {
         type: String,

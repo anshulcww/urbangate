@@ -12,7 +12,7 @@ const {residentAuth} = require('../middleware/auth')
 router.post('/visitorPreApproved', async (req, res) => {
         try{
             let societyId = req.resident.societyId || "asasdasd";
-            let appartmentId = req.resident.appartmentId || "asdasdasd";
+            let apartmentId = req.resident.apartmentId || "asdasdasd";
             let residentId = req.resident.residentId || "asdasswq";
             let visitorObj;;
             const {
@@ -38,7 +38,7 @@ router.post('/visitorPreApproved', async (req, res) => {
            
             let visitorPreApproved = new visitorPreApproved({
                 visitorId : visitorObj._id,
-                appartmentId,
+                apartmentId,
                 preApprovedDate,
                 societyId,
                 residentId

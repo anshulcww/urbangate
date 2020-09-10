@@ -20,9 +20,8 @@
     url - http://18.218.101.128:5000/guard/addVisitor
     method - POST
     body : {
-			"appartmentId" : "5f4eb1a18e7ecd1ae7c2f2f0",
+			"apartmentId" : "5f5a2571c8b7477241806d7e",
             "visitorName" : "Anshul Verma",
-            "contactPerson" : "adsc",
             "visitorImageUrl" : "",
             "visitorMobileNumber" : "1234567890",
             "vehicleNo" : "",
@@ -30,7 +29,7 @@
             "checkInTime" : "1599377811995"
     }
     headers : Bearer "TOKEN"
-____NOTE -  If visitor already exist then add "visitorId"
+____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792dac979c"
 
 4) To check if visitor added or not
     url - http://18.218.101.128:5000/guard/checkVisitor/9876543210
@@ -42,8 +41,8 @@ ____NOTE -  If visitor already exist then add "visitorId"
     url - http://18.218.101.128:5000/guard/whoami
     headers - "Bearer token"
 
-6) GET ALL APPARTMENTS
-    url - http://18.218.101.128:5000/guard/appartments
+6) GET ALL APARTMENTS
+    url - http://18.218.101.128:5000/guard/apartments
     headers - "Bearer token"
 
 
@@ -110,11 +109,11 @@ ____NOTE -  If visitor already exist then add "visitorId"
     }
     headers : Bearer "TOKEN"    
 
-4) ADD APPARTMENT API
-    url - http://18.218.101.128:5000/admin/addAppartment
+4) ADD APARTMENT API
+    url - http://18.218.101.128:5000/admin/addApartment
     method : POST
     body : {
-       "appartment" : "B 402",
+       "apartment" : "B 402",
     }
     headers : Bearer "TOKEN" 
 
@@ -128,19 +127,19 @@ ____NOTE -  If visitor already exist then add "visitorId"
     body : {
         "helperName" : "Vinay Yadav helper",
 	    "helperMobileNumber" : "9876543210",
-	    "appartmentIds": [{
-		    "appartmentId" : "5f4eb1a18e7ecd1ae7c2f2f0"
+	    "apartmentIds": [{
+		    "apartmentId" : "5f5a2571c8b7477241806d7e"
 	    }]
     }
     headers : Bearer "TOKEN"
 
 --------Resident API----------
 
-1) ADD APPARTMENT API
-    url - http://18.218.101.128:5000/admin/addAppartment
+1) ADD APARTMENT API
+    url - http://18.218.101.128:5000/admin/addApartment
     method : POST
     body : {
-       "appartment" : "B 402",
+       "apartment" : "B 402",
     }
     headers : Bearer "TOKEN" 
 

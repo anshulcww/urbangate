@@ -4,11 +4,13 @@ const router = express.Router()
 const { guardAuth } = require('../middleware/auth')
 const Guard = require('../models/guard')
 const Resident = require('../models/resident')
-const Appartment = require('../models/appartment')
+const Apartment = require('../models/apartment')
 
 const Visitor = require('../models/visitor')
 
 const VisitorEntryLogs = require('../models/visitorEntryLogs')
+
+const VisitorPreApproved = require('../models/visitorPreApproved')
 
 const DailyHelper = require('../models/dailyHelper')
 
@@ -45,13 +47,13 @@ router.post('/dailyHelperEntry', guardAuth, async (req, res) => {
             }
         })
         if (checkHelper) {
-            let appartmentIds = checkHelper.appartmentIds
+            let apartmentIds = checkHelper.apartmentIds
             let dailyHelperId = checkHelper._id
             let helperEntryLog = new DailyHelperEntryLogs({
                 societyId,
                 guardId,
                 checkInTime,
-                appartmentIds,
+                apartmentIds,
                 dailyHelperId
             })
             let result = await helperEntryLog.save()
@@ -83,7 +85,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         let guardId = req.guard._id
         let societyId = req.guard.societyId
         const {
-            appartmentId,
+            apartmentId,
             visitorName,
             visitorImageUrl,
             visitorMobileNumber,
@@ -131,7 +133,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         }
 
         let entryLog = new VisitorEntryLogs({
-            appartmentId,
+            apartmentId,
             visitorId: visitorObj._id,
             guardId,
             checkInTime,
@@ -166,17 +168,17 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
 })
 
 // Get All Appartment
-router.get('/appartments', guardAuth, async (req, res) => {
+router.get('/apartments', guardAuth, async (req, res) => {
     try {
         console.log(req.guard)
         let societyId = req.guard.societyId
-        let appartments = await Appartment.find({
+        let apartments = await Apartment.find({
             societyId: societyId
         })
-        if (appartments && appartments.length > 0) {
+        if (apartments && apartments.length > 0) {
             res.status(201).send({
                 success: true,
-                data: appartments
+                data: apartments
             })
         } else {
             res.status(201).send({

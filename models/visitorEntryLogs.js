@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 const visitorEntryLogsSchema = mongoose.Schema({
-    appartmentId : {
+    apartmentId : {
         type : String,
         required : true
     },

@@ -6,12 +6,20 @@ const dailyHelperSchema = mongoose.Schema({
         type :  String,
         required : true
     },
-    appartmentIds : [{
-        appartmentId: String
+    apartmentIds : [{
+        apartmentId: String
     }],
     helperMobileNumber : {
-        type : Number,
-        required : true
+        type: String,
+        required: true,
+        unique: true,
+        validator: value => {
+            if (!validator.isMobilePhone(value)) {
+                throw new Error({
+                    error: 'invalid mobile number'
+                })
+            }
+        }
     },
     societyId : {
         type : String,

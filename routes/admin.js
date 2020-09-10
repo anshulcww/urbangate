@@ -3,7 +3,7 @@ const router = express.Router()
 const Admin = require('../models/admin')
 const Guard = require('../models/guard')
 const Resident = require('../models/resident')
-const Appartment = require('../models/appartment')
+const Apartment = require('../models/apartment')
 const { adminAuth } = require('../middleware/auth')
 const DailyHelper = require('../models/dailyHelper')
 
@@ -16,7 +16,7 @@ router.post('/addHelper', adminAuth, async (req, res) => {
         const {
             helperName,
             helperMobileNumber,
-            appartmentIds,
+            apartmentIds,
         } = req.body
         // check if already exists 
         let check = await DailyHelper.findOne({
@@ -42,7 +42,7 @@ router.post('/addHelper', adminAuth, async (req, res) => {
                 societyId,
                 helperName,
                 helperMobileNumber,
-                appartmentIds
+                apartmentIds
             })
     
             let result = await dailyhelp.save()
@@ -75,18 +75,18 @@ router.get('/whoami', adminAuth, async (req, res) => {
     }
 })
 
-// Add Appartment
-router.post('/addAppartment', adminAuth, async (req, res) => {
+// Add Apartment
+router.post('/addApartment', adminAuth, async (req, res) => {
     try {
         let adminId = req.admin._id
         let societyId = req.admin.societyId
-        let appart = req.body.appartment
-        let appartment = new Appartment({
+        let apart = req.body.apartment
+        let apartment = new Apartment({
             adminId,
             societyId,
-            appartment: appart
+            apartment: apart
         })
-        let result = await appartment.save()
+        let result = await apartment.save()
         res.status(201).send({
             success: true,
             data: result
@@ -107,7 +107,7 @@ router.post('/addResident', adminAuth, async (req, res) => {
         const {
             residentName,
             residentMobileNumber,
-            appartmentId,
+            apartmentId,
         } = req.body
 
         let resident = new Resident({
@@ -115,7 +115,7 @@ router.post('/addResident', adminAuth, async (req, res) => {
             adminId,
             residentName,
             residentMobileNumber,
-            appartmentId
+            apartmentId
         })
         // let pass = Math.floor(1000 + Math.random() * 9000);
         // guard.password = pass

@@ -11,9 +11,16 @@ const visitorSchema = mongoose.Schema({
         // required : true
     },
     visitorMobileNumber : {
-        type : Number,
-        required : true,
-        unique : true
+        type: String,
+        required: true,
+        unique: true,
+        validator: value => {
+            if (!validator.isMobilePhone(value)) {
+                throw new Error({
+                    error: 'invalid mobile number'
+                })
+            }
+        }
     },
     vehicleNo : {
         type : String,
