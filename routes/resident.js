@@ -3,6 +3,7 @@ const router = express.Router()
 const Admin = require('../models/admin')
 const Guard = require('../models/guard')
 const Visitor = require('../models/visitor')
+const VisitorPreApproved = require('../models/visitorPreApproved')
 
 const {residentAuth} = require('../middleware/auth')
 
@@ -36,7 +37,7 @@ router.post('/visitorPreApproved', async (req, res) => {
                 visitorObj = await visitor.save()
             }
            
-            let visitorPreApproved = new visitorPreApproved({
+            let visitorPreApproved = new VisitorPreApproved({
                 visitorId : visitorObj._id,
                 apartmentId,
                 preApprovedDate,

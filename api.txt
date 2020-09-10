@@ -54,6 +54,31 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
 	        "checkInTime" : "1599377811995"
     }
     headers : Bearer "TOKEN"
+
+8) Add Delivery Entry 
+
+    url - http://18.218.101.128:5000/guard/addDelivery
+    method - POST
+    body : {
+			"deliveryName" : "Aditya Sharma",
+            "deliveryMobileNumber" : "8888888888",
+            "deliveryType" : "Courier",
+            "apartmentIds": [{
+                        "apartmentId" : "5f5a2571c8b7477241806d7e"
+                    }],
+            "deliveryImageUrls": [{
+                        "deliveryImageUrl" : "Send Image url in an array"
+                    }],
+	        "checkInTime" : "1599377811995"
+    }
+    headers : Bearer "TOKEN"
+
+
+
+
+
+
+
     
 -------------SOCIETY API---------------
 

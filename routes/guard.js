@@ -16,11 +16,69 @@ const DailyHelper = require('../models/dailyHelper')
 
 const DailyHelperEntryLogs = require('../models/dailyHelperEntryLogs')
 
+const Delivery = require('../models/delivery')
+
 
 const mongoose = require('mongoose')
 const Config = require('../config')
 
 const ObjectId = mongoose.Types.ObjectId
+
+// Add Delivery 
+
+router.post('/addDelivery', guardAuth, async (req, res) => {
+    try{
+        let societyId =  req.guard.societyId
+        let guardId = req.guard._id
+        const {
+            deliveryName,
+            deliveryMobileNumber,
+            deliveryType,
+            apartmentIds,
+            deliveryImageUrls,
+            checkInTime
+        } = req.body
+
+        // Get Resident all resident Id
+
+        // for(let i = 0; i<apartmentIds.length; i++){
+        //     let id = apartmentIds[i].apartmentId
+            
+        //     // Get residentId details
+        //     let resDetails = await Resident.find({ appartmentId: id })
+        //     let message = `Hi! ${deliveryName} requested you to accept the permission for entering in the society`
+
+        //     if(resDetails && resDetails.length > 0){
+        //         for(let i = 0; i < resDetails.length; i++){
+        //             console.log(resDetails.name)
+        //             await Notification.push(resDetails[i].deviceIds, 'Entry Permission', message, 'delivery')
+        //         }
+        //     }
+        // }
+
+        let delivery = new Delivery({
+            societyId,
+            guardId,
+            deliveryName,
+            deliveryMobileNumber,
+            deliveryType,
+            apartmentIds,
+            deliveryImageUrls,
+            checkInTime
+        })
+        let result = await delivery.save()
+        res.status(201).send({
+            success: true,
+            data: result
+        })
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
 
 // Check Helper and if exists send notification to residents
 // and add entry into dailyhelp entry table
@@ -72,7 +130,7 @@ router.post('/dailyHelperEntry', guardAuth, async (req, res) => {
         console.log(error)
         res.status(400).send({
             success: false,
-            error: 'Something went wrong'
+            error: error
         })
     }
 })
@@ -161,13 +219,13 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
         console.log(error)
         res.status(400).send({
             success: false,
-            error: 'Something went wrong'
+            error: error
         })
 
     }
 })
 
-// Get All Appartment
+// Get All Apartment
 router.get('/apartments', guardAuth, async (req, res) => {
     try {
         console.log(req.guard)
@@ -243,11 +301,11 @@ router.get('/checkVisitor/:visitorMobileNumber', async (req, res) => {
             success: true,
             data: visitor
         })
-    } catch (err) {
-        console.log(err)
+    } catch (err0r) {
+        console.log(err0r)
         res.status(400).send({
             success: false,
-            error: err
+            error: err0r
         })
     }
 })
@@ -296,7 +354,7 @@ router.post('/login', async (req, res) => {
         console.log(error)
         res.status(400).send({
             success: false,
-            error
+            error : error
         })
 
     }
