@@ -4,10 +4,37 @@ const Admin = require('../models/admin')
 const Guard = require('../models/guard')
 const Visitor = require('../models/visitor')
 const VisitorPreApproved = require('../models/visitorPreApproved')
+const VisitorEntryLogs = require('../models/visitorEntryLogs')
+const mongoose = require('mongoose')
+
+const ObjectId = mongoose.Types.ObjectId
 
 const {residentAuth} = require('../middleware/auth')
 
-
+// Send Request Status for visitor to guard
+router.post('/entryStatus/', async (req, res) => {
+    try{
+        const{
+            visitorEntryId,
+            status
+        } = req.body
+        
+        await VisitorEntryLogs.updateOne({_id : ObjectId(visitorEntryId)},{ $set: { status: status} })
+        let result = await VisitorEntryLogs.findOne({ _id: visitorEntryId})
+        let message = status
+        // await Notification.push(result[i].deviceId, 'Entry Permission', message, 'visitor')
+        res.status(201).send({
+            success :  true,
+            data:  result
+        })
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success :  false,
+            error:  error
+        })
+    }
+})
 
 //  Visitor pre approved request API
 router.post('/visitorPreApproved', async (req, res) => {
@@ -59,23 +86,5 @@ router.post('/visitorPreApproved', async (req, res) => {
         }
 })
 
-// Accept or decline Api
-router.patch('/requestStatus', residentAuth, async (req, res) => {
-        try{
-           const{
-               visitorId,
-               status,
-           }
-
-            
-
-        }catch(error){
-            console.log(error)
-            res.status(400).send({
-                success :  false,
-                error :  error
-            })
-        }
-})
 
 module.exports = router

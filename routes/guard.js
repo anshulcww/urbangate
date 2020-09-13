@@ -150,9 +150,10 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
             vehicleNo,
             visitorAddress,
             visitorId,
-            checkInTime
+            checkInTime,
+            deviceId
         } = req.body
-
+        console.log(req.body)
         let visitorObj;
         let isPreApproved = false;
         if (visitorId) {
@@ -195,7 +196,8 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
             visitorId: visitorObj._id,
             guardId,
             checkInTime,
-            societyId
+            societyId,
+            deviceId
         })
         await entryLog.save()
         res.status(201).json({

@@ -26,7 +26,8 @@
             "visitorMobileNumber" : "1234567890",
             "vehicleNo" : "",
             "visitorAddress" : "",
-            "checkInTime" : "1599377811995"
+            "checkInTime" : "1599377811995",
+            "deviceId" : "xxxx"
     }
     headers : Bearer "TOKEN"
 ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792dac979c"
@@ -79,7 +80,7 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
 
 
 
-    
+
 -------------SOCIETY API---------------
 
 1) Api for Creating Society
@@ -158,6 +159,9 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     }
     headers : Bearer "TOKEN"
 
+
+
+
 --------Resident API----------
 
 1) ADD APARTMENT API
@@ -167,6 +171,16 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
        "apartment" : "B 402",
     }
     headers : Bearer "TOKEN" 
+
+2) Entry Status ACCEPT or DECLINE API
+    url - http://18.218.101.128:5000/resident/entryStatus
+    method : POST
+    body : {
+	    "visitorEntryId": "5f5de27a3c4f3d0a2303766c",
+	    "status": "Accepted"
+    }
+    headers : Bearer "TOKEN" 
+
 
 ---------------- UPLOAD API-----------------------
 

@@ -21,6 +21,14 @@ const visitorEntryLogsSchema = mongoose.Schema({
     guardId : {
         type : String,
         required : true
+    },
+    deviceId : {
+        type : String,
+        required : true
+    },
+    status:{
+        type: String,
+        enum: ['Accepted', 'Rejected']
     }
 })
 

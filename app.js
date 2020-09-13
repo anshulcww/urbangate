@@ -4,6 +4,7 @@ const Config = require('./config')
 const guard = require('./routes/guard')
 const society = require('./routes/society')
 const admin = require('./routes/admin')
+const resident = require('./routes/resident')
 const multer = require('multer')
 const multerS3 = require("multer-s3");
 
@@ -30,6 +31,7 @@ app.use(cors())
 app.use('/guard', guard)
 app.use('/society', society)
 app.use('/admin', admin)
+app.use('/resident', resident)
 
 //Test Apiss
 app.get('/', (req, res) => res.send('Server is running .... '))
