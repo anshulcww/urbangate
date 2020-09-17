@@ -36,7 +36,11 @@ const residentSchema = mongoose.Schema({
     adminId : {
         type : String,
         required : true
-    }
+    },
+    tokens:[{
+        token : String
+    }],
+    
 })
 
 const Resident = mongoose.model('resident', residentSchema)

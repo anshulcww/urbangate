@@ -1,10 +1,13 @@
 const mongoose = require('mongoose')
 
 const apartmentSchema = mongoose.Schema({
-    apartment : {
+    building : {
         type :  String,
         required : true,
-        unique: true
+    },
+    flatNumber : {
+        type: String,
+        required : true
     },
     societyId : {
         type : String,

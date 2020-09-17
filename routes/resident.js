@@ -6,10 +6,90 @@ const Visitor = require('../models/visitor')
 const VisitorPreApproved = require('../models/visitorPreApproved')
 const VisitorEntryLogs = require('../models/visitorEntryLogs')
 const mongoose = require('mongoose')
+const { residentAuth } = require('../middleware/auth')
 
 const ObjectId = mongoose.Types.ObjectId
 
 const {residentAuth} = require('../middleware/auth')
+const Resident = require('../models/resident')
+
+// Add Members
+router.post('/addMembers', residentAuth, async (req, res) => {
+    try{
+        const{
+            memberName,
+            memberPhoneNumber,
+            relation
+        } =  req.body
+        let residentId = req.resident._id
+        let resident = await Resident.updateOne({_id : ObjectId(visitorId)},{ $set: { checkInTime: date} })
+
+
+
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
+
+// Check visitor 
+router.get('/checkResident/:residentMobileNumber', async (req, res) => {
+    try {
+        let resident = await Resident.findOne({
+            residentMobileNumber: req.params.residentMobileNumber
+        })
+        const token = await guard.generateAuthToken()
+        res.status(201).send({
+            success: true,
+            data: resident,
+            token
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
+
+
+// Add resident
+router.post('/register', async (req, res) => {
+    try{
+        const{
+            residentMobileNumber,
+            residentName,
+            appartmentId,
+            societyId
+        } = req.body
+        let resident = new Resident({
+            residentMobileNumber,
+            residentName,
+            appartmentId,
+            societyId
+        })
+        let result = await resident.save()
+        const token = await guard.generateAuthToken()
+
+        res.status(201).send({
+            success :  true,
+            data :  result,
+            token
+        })
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success :  false,
+            error:  error
+        })
+    }
+})
+
+
 
 // Send Request Status for visitor to guard
 router.post('/entryStatus/', async (req, res) => {
@@ -37,7 +117,7 @@ router.post('/entryStatus/', async (req, res) => {
 })
 
 //  Visitor pre approved request API
-router.post('/visitorPreApproved', async (req, res) => {
+router.post('/visitorPreApproved', residentAuth, async (req, res) => {
         try{
             let societyId = req.resident.societyId || "asasdasd";
             let apartmentId = req.resident.apartmentId || "asdasdasd";
@@ -73,6 +153,7 @@ router.post('/visitorPreApproved', async (req, res) => {
             })
 
             let result = await visitorPreApproved.save()
+
             res.status(201).send({
                 success :  true,
                 data :  result
