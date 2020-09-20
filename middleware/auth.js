@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 
 const Guard = require('../models/guard')
 const Admin = require('../models/admin')
+const Resident = require('../models/resident')
+
 const Config = require('../config')
 
 const residentAuth = async (req, res, next) => {
@@ -23,6 +25,7 @@ const residentAuth = async (req, res, next) => {
         req.token = token
         next()
     } catch (error) {
+        console.log(error)
         res.status(401).send({
             error: 'not authorized'
         })

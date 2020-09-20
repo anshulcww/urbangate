@@ -46,12 +46,14 @@ router.post('/addRemarks', residentAuth, async (req, res) => {
         } =  req.body
         let societyId = req.resident.societyId;
         let apartmentId = req.resident.apartmentId;
+        let residentId = req.resident._id
         let remark = new DailyHelperRemarks({
             societyId,
             apartmentId,
             dailyHelperId,
             remarkUrl,
-            remarkText
+            remarkText,
+            residentId
         })
         let result = await remark.save()
         res.status(201).send({

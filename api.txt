@@ -207,7 +207,14 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     url - http://18.218.101.128:5000/resident/allApartments/5f4d0f8290d74f259b673f90
     method : Get
 
-
+5) Add Remarks
+    url - http://18.218.101.128:5000/resident/addRemarks
+    method - POST
+    body - {
+        "dailyHelperId" : "5f5f388059100136dd121700",
+        "remarkUrl" : "zcxv",
+        "remarkText" : "Remarks Remarks"
+    }
 
 ---------------- UPLOAD API-----------------------
 

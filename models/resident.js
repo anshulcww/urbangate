@@ -43,6 +43,7 @@ const residentSchema = mongoose.Schema({
     }],
     
 })
+
 residentSchema.methods.generateAuthToken = async function () {
     const resident = this
     const token = jwt.sign({
