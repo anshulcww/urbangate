@@ -1,5 +1,7 @@
   
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+const Config = require('../config')
 
 const residentSchema = mongoose.Schema({
     residentName : {
@@ -35,13 +37,23 @@ const residentSchema = mongoose.Schema({
     },
     adminId : {
         type : String,
-        required : true
     },
     tokens:[{
         token : String
     }],
     
 })
+residentSchema.methods.generateAuthToken = async function () {
+    const resident = this
+    const token = jwt.sign({
+        _id: resident._id
+    }, Config.JWT_KEY)
+    resident.tokens = resident.tokens.concat({
+        token
+    })
+    await resident.save()
+    return token
+}
 
 const Resident = mongoose.model('resident', residentSchema)
 

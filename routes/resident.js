@@ -107,8 +107,9 @@ router.post('/register', async (req, res) => {
             societyId,
             deviceIds
         })
+        const token = await resident.generateAuthToken()
+
         let result = await resident.save()
-        const token = await guard.generateAuthToken()
 
         res.status(201).send({
             success :  true,
