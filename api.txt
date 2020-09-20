@@ -106,6 +106,10 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     method : GET
     params - MobileNumber
 
+3) Get All Society 
+    url - http://18.218.101.128:5000/society/getAllSocieties
+    method : GET
+
 ----------------ADMIN API-----------------
 
    Dummy Admin Auth token "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkMTNmZWRiYjkwYjI5NmQxYzg5MTEiLCJpYXQiOjE1OTg4ODY5MTB9.j8T6uyYcCL_Zq5k7okdZCqIPe-LcxzBgGdX16HCgmOg"
@@ -120,6 +124,7 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
         "adminMobileNumber" : "0987654321",
         "email" : "anshul@gmail.com",
         "password" : "1234567890"
+        "deviceIds" :  ["xxxxxxxxx"]
     }
 
 2) ADD GUARD API
@@ -194,6 +199,12 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     body : {
 	  
     }
+
+4) Get App Apartments
+    url - http://18.218.101.128:5000/resident/allApartments/5f4d0f8290d74f259b673f90
+    method : Get
+
+
 
 ---------------- UPLOAD API-----------------------
 

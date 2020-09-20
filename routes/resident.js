@@ -3,6 +3,8 @@ const router = express.Router()
 const Admin = require('../models/admin')
 const Guard = require('../models/guard')
 const Visitor = require('../models/visitor')
+const Apartment = require('../models/apartment')
+
 const VisitorPreApproved = require('../models/visitorPreApproved')
 const VisitorEntryLogs = require('../models/visitorEntryLogs')
 const DailyHelperRemarks = require('../models/dailyHelperRemarks')
@@ -14,7 +16,25 @@ const ObjectId = mongoose.Types.ObjectId
 const {residentAuth} = require('../middleware/auth')
 const Resident = require('../models/resident')
 
-
+// get All Apartments
+router.get('/allApartments/:societyId', async (req, res) => {
+    try{
+        let societyId = req.params.societyId
+        let result =  await Apartment.find({
+            societyId :  societyId
+        })
+        res.status(201).send({
+            success: true,
+            data: result
+        })
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
 
 // Add Remarks
 router.post('/addRemarks', residentAuth, async (req, res) => {
