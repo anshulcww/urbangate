@@ -16,6 +16,8 @@ const DailyHelper = require('../models/dailyHelper')
 
 const DailyHelperEntryLogs = require('../models/dailyHelperEntryLogs')
 
+const DailyHelperRemarks = require('../models/dailyHelperRemarks')
+
 const Delivery = require('../models/delivery')
 
 
@@ -24,11 +26,14 @@ const Config = require('../config')
 
 const ObjectId = mongoose.Types.ObjectId
 
+
+
+
 // Add Delivery 
 
 router.post('/addDelivery', guardAuth, async (req, res) => {
-    try{
-        let societyId =  req.guard.societyId
+    try {
+        let societyId = req.guard.societyId
         let guardId = req.guard._id
         const {
             deliveryName,
@@ -43,7 +48,7 @@ router.post('/addDelivery', guardAuth, async (req, res) => {
 
         // for(let i = 0; i<apartmentIds.length; i++){
         //     let id = apartmentIds[i].apartmentId
-            
+
         //     // Get residentId details
         //     let resDetails = await Resident.find({ appartmentId: id })
         //     let message = `Hi! ${deliveryName} requested you to accept the permission for entering in the society`
@@ -71,7 +76,45 @@ router.post('/addDelivery', guardAuth, async (req, res) => {
             success: true,
             data: result
         })
-    }catch(error){
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
+
+// Get Daily helper profile and remarks
+router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, res) => {
+    try {
+        let dailyHelperMobileNumber = req.params.dailyHelperMobileNumber
+        let societyId = req.guard.societyId
+        let checkHelper = await DailyHelper.findOne({
+            societyId: societyId,
+            helperMobileNumber: dailyHelperMobileNumber
+        }, (err, result) => {
+            if (err) {
+                res.status(201).send({
+                    success: false,
+                    message: err
+                })
+            }
+        })
+        let remarks = await DailyHelperRemarks.find({
+            dailyHelperId: checkHelper._id,
+            societyId: societyId
+        }).sort({
+            _id: -1
+        }).limit(20)
+        res.status(201).send({
+            success: true,
+            data: {
+                helperDetails: checkHelper,
+                remarks: remarks
+            }
+        })
+    } catch (error) {
         console.log(error)
         res.status(400).send({
             success: false,
@@ -88,14 +131,13 @@ router.post('/dailyHelperEntry', guardAuth, async (req, res) => {
         let guardId = req.guard._id
         let societyId = req.guard.societyId
         const {
-            helperMobileNumber,
+            dailyHelperId,
             checkInTime
         } = req.body
 
         // check if helper is registered
         let checkHelper = await DailyHelper.findOne({
-            societyId: societyId,
-            helperMobileNumber: helperMobileNumber
+            _id: ObjectId(dailyHelperId),
         }, (err, result) => {
             if (err) {
                 res.status(201).send({
@@ -104,27 +146,26 @@ router.post('/dailyHelperEntry', guardAuth, async (req, res) => {
                 })
             }
         })
-        if (checkHelper) {
-            let apartmentIds = checkHelper.apartmentIds
-            let dailyHelperId = checkHelper._id
-            let helperEntryLog = new DailyHelperEntryLogs({
-                societyId,
-                guardId,
-                checkInTime,
-                apartmentIds,
-                dailyHelperId
-            })
-            let result = await helperEntryLog.save()
-            res.status(201).send({
-                success: true,
-                data: result
-            })
-        }else{
-            res.status(201).send({
-                success: true,
-                message: "Not registered"
-            })
-        }
+
+        let apartmentIds = checkHelper.apartmentIds
+        let helperEntryLog = new DailyHelperEntryLogs({
+            societyId,
+            guardId,
+            checkInTime,
+            apartmentIds,
+            dailyHelperId
+        })
+        let result = await helperEntryLog.save()
+        res.status(201).send({
+            success: true,
+            data: result
+        })
+        // } else {
+        //     res.status(201).send({
+        //         success: true,
+        //         message: "Not registered"
+        //     })
+        // }
 
     } catch (error) {
         console.log(error)
@@ -160,12 +201,12 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
             // Update Query
             let visDetails = await Visitor.findOne({ _id: ObjectId(visitorId) })
             visDetails.visitorName = visitorName
-                visDetails.visitorMobileNumber = visitorMobileNumber
-                visDetails.vehicleNo = vehicleNo
-                visDetails.visitorAddress = visitorAddress
-                visDetails.checkInTime = checkInTime
-                visDetails.visitorImageUrl = visitorImageUrl
-                visitorObj = await visDetails.save()
+            visDetails.visitorMobileNumber = visitorMobileNumber
+            visDetails.vehicleNo = vehicleNo
+            visDetails.visitorAddress = visitorAddress
+            visDetails.checkInTime = checkInTime
+            visDetails.visitorImageUrl = visitorImageUrl
+            visitorObj = await visDetails.save()
 
             // Check Pre Approval
             var today = new Date();
@@ -356,7 +397,7 @@ router.post('/login', async (req, res) => {
         console.log(error)
         res.status(400).send({
             success: false,
-            error : error
+            error: error
         })
 
     }

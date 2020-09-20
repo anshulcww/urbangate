@@ -20,7 +20,11 @@ const dailyHelperEntryLogsSchema = mongoose.Schema({
     guardId : {
         type : String,
         required : true
-    }
+    },
+    checkOutTime : {
+        type : Date,
+        // required :  true
+    },
 })
 
 

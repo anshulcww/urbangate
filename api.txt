@@ -51,12 +51,19 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     url - http://18.218.101.128:5000/guard/dailyHelperEntry
     method - POST
     body : {
-			"helperMobileNumber" : "9876543210",
+            "dailyHelperId": "5f5f388059100136dd121700",
 	        "checkInTime" : "1599377811995"
     }
     headers : Bearer "TOKEN"
 
-8) Add Delivery Entry 
+8) To check if visitor added or not
+    url - http://18.218.101.128:5000/guard/checkDailyHelper/9876543210
+    method : GET
+    params - MobileNumber
+
+9)
+
+10) Add Delivery Entry 
 
     url - http://18.218.101.128:5000/guard/addDelivery
     method - POST
