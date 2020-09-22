@@ -26,7 +26,7 @@ router.post('/addSociety',async (req, res) => {
         const {
             societyName,
             address,
-            phoneNumber,
+            societyMobileNumber,
             email
         } = req.body
 
