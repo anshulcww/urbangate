@@ -92,7 +92,7 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
 
 1) Api for Creating Society
     
-    url - http://18.218.101.128:5000/society/createSociety
+    url - http://18.218.101.128:5000/society/addSociety
     method - POST
     body - {
 	"societyName" : "Tarika Apartments",
