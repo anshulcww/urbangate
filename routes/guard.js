@@ -103,8 +103,22 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
             }
         })
         // check if Daily Help already check in
-        
-        let entryCheck = await DailyHelperEntryLogs.find({})
+
+        let entryCheck = await DailyHelperEntryLogs.find({
+            dailyHelperId :  checkHelper._id
+        }).sort({ _id : -1}).limit(1)
+
+        if(entryCheck){
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            today = dd + '-' + mm + '-' + yyyy;
+            if(entryCheck.checkInTime){
+                
+            }
+        }
 
         let remarks = await DailyHelperRemarks.find({
             dailyHelperId: checkHelper._id,
@@ -221,7 +235,7 @@ router.post('/addVisitor', guardAuth, async (req, res) => {
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();
 
-            today = mm + '-' + dd + '-' + yyyy;
+            today = dd + '-' + mm + '-' + yyyy;
             let preApprovedObj = await VisitorPreApproved.findOne({ visitorId: visitorId, preApprovedDate: today })
             if (preApprovedObj) {
                 isPreApproved = true
