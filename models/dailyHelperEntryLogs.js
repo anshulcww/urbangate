@@ -10,7 +10,7 @@ const dailyHelperEntryLogsSchema = mongoose.Schema({
         required : true
     },
     checkInTime : {
-        type : Date,
+        type : String,
         required :  true
     },
     societyId : {

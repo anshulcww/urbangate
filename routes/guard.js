@@ -86,6 +86,7 @@ router.post('/addDelivery', guardAuth, async (req, res) => {
 })
 
 // Get Daily helper profile and remarks
+// Today entry in the 
 router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, res) => {
     try {
         let dailyHelperMobileNumber = req.params.dailyHelperMobileNumber
@@ -101,6 +102,10 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
                 })
             }
         })
+        // check if Daily Help already check in
+        
+        let entryCheck = await DailyHelperEntryLogs.find({})
+
         let remarks = await DailyHelperRemarks.find({
             dailyHelperId: checkHelper._id,
             societyId: societyId
@@ -176,6 +181,8 @@ router.post('/dailyHelperEntry', guardAuth, async (req, res) => {
     }
 })
 
+
+// Checkout for Daily helper
 
 // For Adding Visitor
 router.post('/addVisitor', guardAuth, async (req, res) => {

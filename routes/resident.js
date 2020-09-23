@@ -13,21 +13,51 @@ const mongoose = require('mongoose')
 
 const ObjectId = mongoose.Types.ObjectId
 
-const {residentAuth} = require('../middleware/auth')
+const { residentAuth } = require('../middleware/auth')
 const Resident = require('../models/resident')
+
+// Get all visitors
+router.get('/visitors', residentAuth, async (req, res) => {
+    try {
+        let residentId = req.resident._id
+        let appartmentId = req.resident.appartmentId
+
+        let visEntries = await VisitorEntryLogs.find({
+            appartmentId : appartmentId,
+        })
+        // console.log(visEntries)
+        let vis = []
+        for(let i = 0; i < visEntries.length; i++){
+            let visitor = await Visitor.find({
+                _id : ObjectId(visEntries[i].visitorId)
+            })
+            vis.push(visitor)
+        }
+        console.log(vis)
+
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
+
+
 
 // get All Apartments
 router.get('/allApartments/:societyId', async (req, res) => {
-    try{
+    try {
         let societyId = req.params.societyId
-        let result =  await Apartment.find({
-            societyId :  societyId
+        let result = await Apartment.find({
+            societyId: societyId
         })
         res.status(201).send({
             success: true,
             data: result
         })
-    }catch(error){
+    } catch (error) {
         console.log(error)
         res.status(400).send({
             success: false,
@@ -38,12 +68,12 @@ router.get('/allApartments/:societyId', async (req, res) => {
 
 // Add Remarks
 router.post('/addRemarks', residentAuth, async (req, res) => {
-    try{
-        const{
-          dailyHelperId,
-          remarkUrl,
-          remarkText
-        } =  req.body
+    try {
+        const {
+            dailyHelperId,
+            remarkUrl,
+            remarkText
+        } = req.body
         let societyId = req.resident.societyId;
         let apartmentId = req.resident.apartmentId;
         let residentId = req.resident._id
@@ -60,7 +90,7 @@ router.post('/addRemarks', residentAuth, async (req, res) => {
             success: true,
             data: result
         })
-    }catch(error){
+    } catch (error) {
         console.log(error)
         res.status(400).send({
             success: false,
@@ -93,15 +123,15 @@ router.get('/checkResident/:residentMobileNumber', async (req, res) => {
 
 // Add resident
 router.post('/register', async (req, res) => {
-    try{
-        const{
+    try {
+        const {
             residentMobileNumber,
             residentName,
             apartmentId,
             societyId,
             deviceIds
         } = req.body
-        
+
         let resident = new Resident({
             residentMobileNumber,
             residentName,
@@ -114,15 +144,15 @@ router.post('/register', async (req, res) => {
         let result = await resident.save()
 
         res.status(201).send({
-            success :  true,
-            data :  result,
+            success: true,
+            data: result,
             token
         })
-    }catch(error){
+    } catch (error) {
         console.log(error)
         res.status(400).send({
-            success :  false,
-            error:  error
+            success: false,
+            error: error
         })
     }
 })
@@ -131,78 +161,78 @@ router.post('/register', async (req, res) => {
 
 // Send Request Status for visitor to guard
 router.post('/entryStatus/', async (req, res) => {
-    try{
-        const{
+    try {
+        const {
             visitorEntryId,
             status
         } = req.body
-        
-        await VisitorEntryLogs.updateOne({_id : ObjectId(visitorEntryId)},{ $set: { status: status} })
-        let result = await VisitorEntryLogs.findOne({ _id: visitorEntryId})
+
+        await VisitorEntryLogs.updateOne({ _id: ObjectId(visitorEntryId) }, { $set: { status: status } })
+        let result = await VisitorEntryLogs.findOne({ _id: visitorEntryId })
         let message = status
         // await Notification.push(result[i].deviceId, 'Entry Permission', message, 'visitor')
         res.status(201).send({
-            success :  true,
-            data:  result
+            success: true,
+            data: result
         })
-    }catch(error){
+    } catch (error) {
         console.log(error)
         res.status(400).send({
-            success :  false,
-            error:  error
+            success: false,
+            error: error
         })
     }
 })
 
 //  Visitor pre approved request API
 router.post('/visitorPreApproved', residentAuth, async (req, res) => {
-        try{
-            let societyId = req.resident.societyId || "asasdasd";
-            let apartmentId = req.resident.apartmentId || "asdasdasd";
-            let residentId = req.resident.residentId || "asdasswq";
-            let visitorObj;
-            const {
+    try {
+        let societyId = req.resident.societyId || "asasdasd";
+        let apartmentId = req.resident.apartmentId || "asdasdasd";
+        let residentId = req.resident.residentId || "asdasswq";
+        let visitorObj;
+        const {
+            visitorName,
+            visitorAddress,
+            visitorMobileNumber,
+            vehicleNo,
+            preApprovedDate
+        } = req.body
+
+        visitorObj = await Visitor.findOne({
+            visitorMobileNumber: visitorMobileNumber
+        })
+        if (visitorObj === null) {
+            let visitor = new visitor({
                 visitorName,
                 visitorAddress,
                 visitorMobileNumber,
                 vehicleNo,
-                preApprovedDate
-            } = req.body
-
-            visitorObj = await Visitor.findOne({
-                visitorMobileNumber : visitorMobileNumber
             })
-            if(visitorObj === null){
-                let visitor = new visitor({
-                    visitorName,
-                    visitorAddress,
-                    visitorMobileNumber,
-                    vehicleNo,
-                })
-                visitorObj = await visitor.save()
-            }
-           
-            let visitorPreApproved = new VisitorPreApproved({
-                visitorId : visitorObj._id,
-                apartmentId,
-                preApprovedDate,
-                societyId,
-                residentId
-            })
-
-            let result = await visitorPreApproved.save()
-
-            res.status(201).send({
-                success :  true,
-                data :  result
-            })
-        }catch(error){
-            console.log(error)
-            res.status(400).send({
-                success :  false,
-                error :  error
-            })
+            visitorObj = await visitor.save()
         }
+
+        let visitorPreApproved = new VisitorPreApproved({
+            visitorId: visitorObj._id,
+            apartmentId,
+            preApprovedDate,
+            societyId,
+            residentId
+        })
+
+        let result = await visitorPreApproved.save()
+
+        res.status(201).send({
+            success: true,
+            data: result
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
 })
 
 

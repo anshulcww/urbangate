@@ -56,7 +56,7 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     }
     headers : Bearer "TOKEN"
 
-8) To check if visitor added or not
+8)  Check daily helper
     url - http://18.218.101.128:5000/guard/checkDailyHelper/9876543210
     method : GET
     params - MobileNumber
@@ -150,7 +150,8 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     url - http://18.218.101.128:5000/admin/addApartment
     method : POST
     body : {
-       "apartment" : "B 402",
+       "building" : "B",
+       "flatNumber" : "402"
     }
     headers : Bearer "TOKEN" 
 
@@ -196,11 +197,11 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     url - http://18.218.101.128:5000/resident/register
     method : POST
     body : {
-	   residentMobileNumber : "111111111",
-            residentName : "ASdfff",
-            apartmentId : "5f5a2571c8b7477241806d7e",
-            societyId : "5f4d0f8290d74f259b673f90",
-            deviceIds : ["aaaaaaaa"]
+	   "residentMobileNumber" : "111111111",
+            "residentName" : "ASdfff",
+            "apartmentId" : "5f5a2571c8b7477241806d7e",
+            "societyId" : "5f4d0f8290d74f259b673f90",
+            "deviceIds" : ["aaaaaaaa"]
     }
 
 4) Get App Apartments

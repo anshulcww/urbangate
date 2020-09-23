@@ -80,11 +80,13 @@ router.post('/addApartment', adminAuth, async (req, res) => {
     try {
         let adminId = req.admin._id
         let societyId = req.admin.societyId
-        let apart = req.body.apartment
+        let building = req.body.building
+        let flatNumber = req.body.flatNumber
         let apartment = new Apartment({
             adminId,
             societyId,
-            apartment: apart
+            building,
+            flatNumber
         })
         let result = await apartment.save()
         res.status(201).send({
