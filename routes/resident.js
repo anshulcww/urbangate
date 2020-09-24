@@ -16,24 +16,54 @@ const ObjectId = mongoose.Types.ObjectId
 const { residentAuth } = require('../middleware/auth')
 const Resident = require('../models/resident')
 
+router.get('/visitorEntries/:visitorId', residentAuth, async (req, res) => {
+    try{
+        let visitorId = req.params.visitorId
+        let apartmentId = req.resident.apartmentId
+
+        let visEntries =  await VisitorEntryLogs.find({
+            apartmentId : apartmentId,
+            visitorId : visitorId
+        })
+        res.status(201).send({
+            success: true,
+            data: visEntries
+        })
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
+
 // Get all visitors
 router.get('/visitors', residentAuth, async (req, res) => {
     try {
         let residentId = req.resident._id
-        let appartmentId = req.resident.appartmentId
+        let apartmentId = req.resident.apartmentId
 
-        let visEntries = await VisitorEntryLogs.find({
-            appartmentId : appartmentId,
+
+        let visLastEntries = await VisitorEntryLogs.aggregate([
+            {
+                $match: { apartmentId: apartmentId}
+            },
+            {
+                $group: {
+                    _id: "$visitorId",
+                    checkInTime: { "$last": "$checkInTime" }
+                }
+            },
+            { $addFields: { "visitorId": { "$toObjectId": "$_id" } } },
+
+            { $lookup: { from: "visitors", localField: "visitorId", foreignField: "_id", as: "details" } },
+        ])
+        console.log(visLastEntries)
+        res.status(201).send({
+            success: true,
+            data: visLastEntries
         })
-        // console.log(visEntries)
-        let vis = []
-        for(let i = 0; i < visEntries.length; i++){
-            let visitor = await Visitor.find({
-                _id : ObjectId(visEntries[i].visitorId)
-            })
-            vis.push(visitor)
-        }
-        console.log(vis)
 
     } catch (error) {
         console.log(error)

@@ -226,6 +226,17 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
         "remarkText" : "Remarks Remarks"
     }
 
+6) Get Unique Visitors for residents
+    url - http://18.218.101.128:5000/resident/visitors  
+    method - get
+    headers : Bearer "TOKEN"
+
+7) get all visitor Entries
+    url - http://18.218.101.128:5000/resident/visitorEntries/5f65e72fa7bbfc53794f8a9f
+    params - visitorId,
+    method : Get
+    headers : Bearer "TOKEN"
+
 ---------------- UPLOAD API-----------------------
 
 1)  Upload images
