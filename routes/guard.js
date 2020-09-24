@@ -89,6 +89,8 @@ router.post('/addDelivery', guardAuth, async (req, res) => {
 // Today entry in the 
 router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, res) => {
     try {
+        let isCheckIn = false;
+        let entryHelperId = null;
         let dailyHelperMobileNumber = req.params.dailyHelperMobileNumber
         let societyId = req.guard.societyId
         let checkHelper = await DailyHelper.findOne({
@@ -105,18 +107,29 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
         // check if Daily Help already check in
 
         let entryCheck = await DailyHelperEntryLogs.find({
-            dailyHelperId :  checkHelper._id
-        }).sort({ _id : -1}).limit(1)
-
-        if(entryCheck){
+            dailyHelperId: checkHelper._id
+        }).sort({ _id: -1 }).limit(1)
+        if (entryCheck) {
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();
 
             today = dd + '-' + mm + '-' + yyyy;
-            if(entryCheck.checkInTime){
-                
+
+            if (entryCheck[0].checkInTime && !entryCheck[0].checkOutTime) {
+                let entryDate = new Date(1600942699291)
+                var day = String(entryDate.getDate()).padStart(2, '0');
+                var month = String(entryDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var year = entryDate.getFullYear();
+                let date = day + "-" + month + "-" + year;
+                console.log(date, today)
+                if (date === today) {
+                    isCheckIn = true
+                    entryHelperId = entryCheck[0]._id
+                    console.log('Anshul')
+                }
+
             }
         }
 
@@ -130,7 +143,9 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
             success: true,
             data: {
                 helperDetails: checkHelper,
-                remarks: remarks
+                remarks: remarks,
+                isCheckIn : isCheckIn,
+                dailyHelperEntryId : entryHelperId
             }
         })
     } catch (error) {
@@ -141,6 +156,30 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
         })
     }
 })
+
+// Checkout time for Daily Helper
+router.put('/checkoutDailyHelper', guardAuth, async (req, res) => {
+    try{
+        const {
+            dailyHelperEntryId,
+            checkOutTime
+        } = req.body
+        //let result = await DailyHelperEntryLogs.updateOne()
+        let result = await DailyHelperEntryLogs.updateOne({_id : ObjectId(dailyHelperEntryId)},{ $set: { checkOutTime: checkOutTime} })
+        res.status(201).send({
+            success: true,
+            data: result
+        })
+
+    }catch(error){
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
+
 
 // Check Helper and if exists send notification to residents
 // and add entry into dailyhelp entry table

@@ -61,7 +61,16 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     method : GET
     params - MobileNumber
 
-9)
+    Important - If isCheckIn is True in response (I am also sending you entry id) It means you have to show checkout option and 
+                for checkout you have to hit below api with 'dailyHelperEntryId' 
+
+9) Checkout Api for Daily Helper
+    url - http://18.218.101.128:5000/guard/checkoutDailyHelper
+    method : PUT
+    body : {
+        "dailyHelperEntryId" : "5f6c728d043d272513354f3d",
+        "checkOutTime" : "1600942699291"
+    }
 
 10) Add Delivery Entry 
 
