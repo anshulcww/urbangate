@@ -301,7 +301,7 @@ router.post('/visitorPreApproved', residentAuth, async (req, res) => {
             visitorMobileNumber: visitorMobileNumber
         })
         if (visitorObj === null) {
-            let visitor = new visitor({
+            let visitor = new Visitor({
                 visitorName,
                 visitorAddress,
                 visitorMobileNumber,
