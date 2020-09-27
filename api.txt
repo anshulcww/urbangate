@@ -240,11 +240,21 @@ Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMy
     params - visitorId,
     method : Get
     headers : Bearer "TOKEN"
+
+8) get all helpers (Both Personal & Society)
+    url - http://18.218.101.128:5000/resident/helpers/
+    method : Get
+    headers : Bearer "TOKEN"   
     
         //  need approved status too in the response, 
         //  need vehicle no too    
 
     //  need check resident api
+9) get all visitor Entries
+    url - http://18.218.101.128:5000/resident/getHelperDetails/5f65e72fa7bbfc53794f8a9f
+    params - dailyHelperId,
+    method : Get
+    headers : Bearer "TOKEN"
 
 ---------------- UPLOAD API-----------------------
 

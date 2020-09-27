@@ -8,6 +8,8 @@ const Apartment = require('../models/apartment')
 const VisitorPreApproved = require('../models/visitorPreApproved')
 const VisitorEntryLogs = require('../models/visitorEntryLogs')
 const DailyHelperRemarks = require('../models/dailyHelperRemarks')
+const DailyHelper = require('../models/dailyHelper')
+
 
 const mongoose = require('mongoose')
 
@@ -15,6 +17,71 @@ const ObjectId = mongoose.Types.ObjectId
 
 const { residentAuth } = require('../middleware/auth')
 const Resident = require('../models/resident')
+
+
+// Get Helper details
+
+router.get('/getHelperDetails/:dailyHelperId' , residentAuth, async (req, res) => {
+    try{
+        let dailyHelperId = req.params.dailyHelperId
+        let helper = await DailyHelper.findOne({
+            _id : ObjectId(dailyHelperId)
+        })
+        res.status(201).send({
+            success : true,
+            data : helper
+        })
+        
+    }catch(error){
+        console.log(error)
+        res.status(201).send({
+            success : true,
+            error : error
+        })
+    }
+})
+
+
+// Personal helpers and society helpers
+router.get('/helpers', residentAuth, async (req, res) => {
+    try{
+        let societyId = req.resident.societyId
+        let apartmentId = req.resident.apartmentId
+        let helper = await DailyHelper.find({
+            societyId :  societyId
+        })
+        let personalHelpers = []
+        let societyHelpers = []
+        for(let i = 0; i< helper.length; i++){
+            let checkCount = 0
+            for(let j = 0; j<helper[i].apartmentIds.length; j++){
+                if(helper[i].apartmentIds[j].apartmentId == apartmentId){
+                    checkCount++;
+                    personalHelpers.push(helper[i])
+                }
+            }
+            if(checkCount === 0){
+               societyHelpers.push(helper[i])
+            }
+        }
+        res.status(201).send({
+            success : true,
+            data : {
+                personalHelpers : personalHelpers,
+                societyHelpers :  societyHelpers
+            }
+        })
+
+
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success : false,
+            error : error
+        })
+    }
+})
+
 
 router.get('/visitorEntries/:visitorId', residentAuth, async (req, res) => {
     try{
@@ -142,10 +209,11 @@ router.get('/checkResident/:residentMobileNumber', async (req, res) => {
             token
         })
     } catch (error) {
-        console.log(error)
+        console.log(typeof error)
         res.status(400).send({
             success: false,
-            error: error
+            error : String(error)
+             
         })
     }
 })
