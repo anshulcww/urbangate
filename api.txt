@@ -185,6 +185,8 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
 
 --------Resident API----------
 
+Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMyMzliZDFmNTY4N2ZkNzBkMWQiLCJpYXQiOjE2MDA3OTM2MzV9.19JUaJVLJ3_1Pw1QJj6xbkuE_RfKsFUY45H3DiNIXAE
+
 1) ADD APARTMENT API
     url - http://18.218.101.128:5000/admin/addApartment
     method : POST
