@@ -56,6 +56,26 @@ residentSchema.methods.generateAuthToken = async function () {
     return token
 }
 
+// FInd credentials
+residentSchema.statics.findByCredentials = async (mobileNumber) => {
+    const resident = await Resident.findOne({
+        residentMobileNumber : mobileNumber
+    })
+
+    if (!resident) {
+        throw new Error('invalid credentials')
+    }
+
+    // if (password != '0000') {
+    //     const isPasswordCorrect = await bcrypt.compare(password, user.password)
+    //     if (!isPasswordCorrect) {
+    //         throw new Error('invalid credentials')
+    //     }
+    // }
+
+    return resident
+}
+
 const Resident = mongoose.model('resident', residentSchema)
 
 module.exports = Resident

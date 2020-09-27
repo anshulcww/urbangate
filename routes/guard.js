@@ -116,8 +116,9 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
             var yyyy = today.getFullYear();
 
             today = dd + '-' + mm + '-' + yyyy;
+            // console.log(entryCheck[0]._id)
+            if (entryCheck[0] && entryCheck[0].checkInTime && !entryCheck[0].checkOutTime ) {
 
-            if (entryCheck[0].checkInTime && !entryCheck[0].checkOutTime) {
                 let entryDate = new Date()
                 console.log(entryDate)
                 var day = String(entryDate.getDate()).padStart(2, '0');
@@ -128,7 +129,7 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
                 if (date === today) {
                     isCheckIn = true
                     entryHelperId = entryCheck[0]._id
-                    console.log('Anshul')
+                    console.log(entryHelperId)
                 }
 
             }
@@ -140,6 +141,9 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
         }).sort({
             _id: -1
         }).limit(20)
+        let residentName  =  await Resident.findOne({
+            
+        })
         res.status(201).send({
             success: true,
             data: {

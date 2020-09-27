@@ -132,10 +132,10 @@ router.post('/addRemarks', residentAuth, async (req, res) => {
 // Check visitor 
 router.get('/checkResident/:residentMobileNumber', async (req, res) => {
     try {
-        let resident = await Resident.findOne({
-            residentMobileNumber: req.params.residentMobileNumber
-        })
-        const token = await guard.generateAuthToken()
+        let residentMobileNumber = req.params.residentMobileNumber
+        const resident = await Resident.findByCredentials(residentMobileNumber)
+        const token = await resident.generateAuthToken()
+        await resident.save()
         res.status(201).send({
             success: true,
             data: resident,

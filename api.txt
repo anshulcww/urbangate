@@ -238,6 +238,7 @@ Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMy
     params - visitorId,
     method : Get
     headers : Bearer "TOKEN"
+    
 
 ---------------- UPLOAD API-----------------------
 
