@@ -118,7 +118,8 @@ router.get('/checkDailyHelper/:dailyHelperMobileNumber', guardAuth, async (req, 
             today = dd + '-' + mm + '-' + yyyy;
 
             if (entryCheck[0].checkInTime && !entryCheck[0].checkOutTime) {
-                let entryDate = new Date(1600942699291)
+                let entryDate = new Date()
+                console.log(entryDate)
                 var day = String(entryDate.getDate()).padStart(2, '0');
                 var month = String(entryDate.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var year = entryDate.getFullYear();
