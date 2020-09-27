@@ -51,7 +51,7 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     url - http://18.218.101.128:5000/guard/dailyHelperEntry
     method - POST
     body : {
-            "dailyHelperId": "5f5f388059100136dd121700",
+            "   ": "5f5f388059100136dd121700",
 	        "checkInTime" : "1599377811995"
     }
     headers : Bearer "TOKEN"
@@ -72,6 +72,8 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
         "checkOutTime" : "1600942699291"
     }
 
+
+//  1601181820082
 10) Add Delivery Entry 
 
     url - http://18.218.101.128:5000/guard/addDelivery
@@ -239,6 +241,10 @@ Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMy
     method : Get
     headers : Bearer "TOKEN"
     
+        //  need approved status too in the response, 
+        //  need vehicle no too    
+
+    //  need check resident api
 
 ---------------- UPLOAD API-----------------------
 
