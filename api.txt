@@ -250,6 +250,17 @@ Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMy
     method : Get
     headers : Bearer "TOKEN"
 
+10) Hire Helper (HINT -: First hit above api then you will get timeSlots with isAvailable Flag)
+    
+    url - http://18.218.101.128:5000/resident/hireHelper
+    body - {
+        dailyHelperId: "5f5f388059100136dd121700",
+        time: "6 AM - 7 AM"
+    }
+    method : PUT
+    Headers : Bearer "TOKEN"
+
+    
 ---------------- UPLOAD API-----------------------
 
 1)  Upload images
