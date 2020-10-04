@@ -189,7 +189,9 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     }
     headers : Bearer "TOKEN"
 
-
+7) 5) WHO AM I 
+    url - http://18.218.101.128:5000/resident/whoami
+    headers - "Bearer token"
 
 
 --------Resident API----------
@@ -264,8 +266,16 @@ Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMy
     url - http://18.218.101.128:5000/resident/hireHelper
     body - {
         dailyHelperId: "5f5f388059100136dd121700",
-        time: "6 AM - 7 AM"
+        time: ["6 AM - 7 AM"],
+        isAvailable : true/false
     }
+
+    *** For Hire ***
+    isAvailable :  false
+
+    *** For Unhire ***
+    isAvailable  :  true
+
     method : PUT
     Headers : Bearer "TOKEN"
 

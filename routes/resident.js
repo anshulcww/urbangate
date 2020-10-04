@@ -18,14 +18,31 @@ const ObjectId = mongoose.Types.ObjectId
 const { residentAuth } = require('../middleware/auth')
 const Resident = require('../models/resident')
 
+// WHO AM I????
+router.get('/whoami', residentAuth, async (req, res) => {
+    try {
+        let resident = req.resident
+        res.status(201).send(resident)
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
 // Hire Helper
 router.put('/hireHelper', residentAuth, async (req, res) => {
     try {
         const {
             dailyHelperId,
             time,
-            hireStatus
+            isAvailable
         } = req.body
+        let apartmentId = req.resident.apartmentId
+        if(isAvailable == true){
+            apartmentId = null
+        }
         for(let i = 0; i<time.length; i++){
             let res = await DailyHelper.updateOne(
                 {
@@ -36,7 +53,7 @@ router.put('/hireHelper', residentAuth, async (req, res) => {
                 },
                 {
     
-                    $set: { 'timeSlots.$.isAvailable': hireStatus }
+                    $set: { 'timeSlots.$.isAvailable': isAvailable, 'timeSlots.$.apartmentId' : apartmentId }
                 }
             )
         }
