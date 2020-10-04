@@ -6,7 +6,7 @@ NOSQL BOOSTER
 
 AWS -
     cd /home/mohit/Downloads 
-    ssh -i "urbangate.pem" ubuntu@ec2-18-218-101-128.us-east-2.compute.amazonaws.com
+        ssh -i "urbangate.pem" ubuntu@ec2-18-218-101-128.us-east-2.compute.amazonaws.com
 
     sudo scp -i urbangate.pem /home/mohit/anshul/urbangate/config.js ubuntu@ec2-18-218-101-128.us-east-2.compute.amazonaws.com:/home/ubuntu/urbangate/
 

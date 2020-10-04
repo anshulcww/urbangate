@@ -30,6 +30,18 @@ const ObjectId = mongoose.Types.ObjectId
 // Get deliveries
 router.get('/deliveries', guardAuth,  async(req, res) => {
     try{
+        let societyId = req.guard.societyId
+        let result = await Delivery.aggregate([
+            {
+            $match: {societyId : societyId}
+            },
+            { $addFields: { "apartmentObj": { "$toObjectId": "$apartmentId" } } },
+            { $lookup: { from: "apartments", localField: "apartmentObj", foreignField: "_id", as: "details" } },
+        ])
+        res.status(201).send({
+            success: true,
+            data: result
+        })
 
     }catch(error){
         console.log(error)
