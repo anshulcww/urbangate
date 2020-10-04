@@ -27,7 +27,18 @@ const Config = require('../config')
 const ObjectId = mongoose.Types.ObjectId
 
 
+// Get deliveries
+router.get('/deliveries', guardAuth,  async(req, res) => {
+    try{
 
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
 
 // Add Delivery 
 
@@ -61,20 +72,23 @@ router.post('/addDelivery', guardAuth, async (req, res) => {
         //     }
         // }
 
-        let delivery = new Delivery({
-            societyId,
-            guardId,
-            deliveryName,
-            deliveryMobileNumber,
-            deliveryType,
-            apartmentIds,
-            deliveryImageUrls,
-            checkInTime
-        })
-        let result = await delivery.save()
+        for(let i = 0; i<apartmentIds.length; i++){
+            let delivery = new Delivery({
+                societyId,
+                guardId,
+                deliveryName,
+                deliveryMobileNumber,
+                deliveryType,
+                apartmentId : apartmentIds[i].apartmentId,
+                deliveryImageUrls,
+                checkInTime
+            })
+            await delivery.save()
+        }
+
+       
         res.status(201).send({
             success: true,
-            data: result
         })
     } catch (error) {
         console.log(error)
