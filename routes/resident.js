@@ -26,22 +26,23 @@ router.put('/hireHelper', residentAuth, async (req, res) => {
             time,
             hireStatus
         } = req.body
-
-        let res = await DailyHelper.updateOne(
-            {
-                _id: ObjectId(dailyHelperId),
-                timeSlots: {
-                    $elemMatch: { time: time }
+        for(let i = 0; i<time.length; i++){
+            let res = await DailyHelper.updateOne(
+                {
+                    _id: ObjectId(dailyHelperId),
+                    timeSlots: {
+                        $elemMatch: { time: time[i] }
+                    }
+                },
+                {
+    
+                    $set: { 'timeSlots.$.isAvailable': hireStatus }
                 }
-            },
-            {
-
-                $set: { 'timeSlots.$.isAvailable': hireStatus }
-            }
-        )
+            )
+        }
+     
         res.status(201).send({
             success: true,
-            data: res
         })
 
     } catch (error) {
