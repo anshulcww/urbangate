@@ -23,7 +23,8 @@ router.put('/hireHelper', residentAuth, async (req, res) => {
     try {
         const {
             dailyHelperId,
-            time
+            time,
+            hireStatus
         } = req.body
 
         let res = await DailyHelper.updateOne(
@@ -35,7 +36,7 @@ router.put('/hireHelper', residentAuth, async (req, res) => {
             },
             {
 
-                $set: { 'timeSlots.$.isAvailable': false }
+                $set: { 'timeSlots.$.isAvailable': hireStatus }
             }
         )
         res.status(201).send({
