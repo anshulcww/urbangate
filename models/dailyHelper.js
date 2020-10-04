@@ -87,6 +87,13 @@ const dailyHelperSchema = mongoose.Schema({
             },
         ]
     },
+    helperProfessional : {
+        type : String,
+        required : true,
+        enum : ['maid' , 'cook', 'nanny', 'others']
+    }
+    
+    
 })
 
 const DailyHelper = mongoose.model('dailyHelper', dailyHelperSchema)

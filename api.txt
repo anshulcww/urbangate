@@ -180,7 +180,9 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
 	    "helperMobileNumber" : "9876543210",
 	    "apartmentIds": [{
 		    "apartmentId" : "5f5a2571c8b7477241806d7e"
-	    }]
+	    }],
+        "helperProfessional" : "cook"
+
     }
     headers : Bearer "TOKEN"
 
