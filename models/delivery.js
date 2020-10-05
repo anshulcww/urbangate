@@ -31,9 +31,10 @@ const deliverySchema = mongoose.Schema({
         type : String,
         required : true,
     },
-    apartmentIds:[{
-        apartmentId : String
-    }],
+    apartmentId: {
+        type: String,
+        required: true
+    },
     deliveryImageUrls:[{
         deliveryImageUrl : String
     }],

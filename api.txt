@@ -79,11 +79,13 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     url - http://18.218.101.128:5000/guard/addDelivery
     method - POST
     body : {
-			"deliveryName" : "Aditya Sharma",
+		    "deliveryName" : "Aditya Sharma",
             "deliveryMobileNumber" : "8888888888",
             "deliveryType" : "Courier",
-            "apartmentIds": [{
-                        "apartmentId" : "5f5a2571c8b7477241806d7e"
+            "apartmentIds": [
+                        {"apartmentId" : "5f5a2571c8b7477241806d7e"},
+                        {"apartmentId" : "5f6c117e043d272513354f3c"},
+                        {"apartmentId" : "5f6b820eb0f81221ddbcaa81"
                     }],
             "deliveryImageUrls": [{
                         "deliveryImageUrl" : "Send Image url in an array"
@@ -92,6 +94,11 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     }
     headers : Bearer "TOKEN"
 
+11) GET ALL Deliveries
+    url - http://18.218.101.128:5000/guard/deliveries
+    headers - "Bearer token"
+
+// get all delivery 
 
 
 
@@ -178,11 +185,15 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
 	    "helperMobileNumber" : "9876543210",
 	    "apartmentIds": [{
 		    "apartmentId" : "5f5a2571c8b7477241806d7e"
-	    }]
+	    }],
+        "helperProfessional" : "cook"
+
     }
     headers : Bearer "TOKEN"
 
-
+7) 5) WHO AM I 
+    url - http://18.218.101.128:5000/resident/whoami
+    headers - "Bearer token"
 
 
 --------Resident API----------
@@ -256,6 +267,25 @@ Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMy
     method : Get
     headers : Bearer "TOKEN"
 
+10) Hire Helper (HINT -: First hit above api then you will get timeSlots with isAvailable Flag)
+    
+    url - http://18.218.101.128:5000/resident/hireHelper
+    body - {
+        dailyHelperId: "5f5f388059100136dd121700",
+        time: ["6 AM - 7 AM"],
+        isAvailable : true/false
+    }
+
+    *** For Hire ***
+    isAvailable :  false
+
+    *** For Unhire ***
+    isAvailable  :  true
+
+    method : PUT
+    Headers : Bearer "TOKEN"
+
+    
 ---------------- UPLOAD API-----------------------
 
 1)  Upload images
