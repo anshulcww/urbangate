@@ -1,4 +1,5 @@
 const express = require('express')
+const DailyCount = require('../models/dailyCount')
 const router = express.Router()
 const Society = require('../models/society')
 
@@ -55,6 +56,28 @@ router.get('/getSociety/:phoneNumber', async (req, res) => {
         res.status(201).send({
             success :  true,
             data :  society
+        })
+    }catch(err){
+        console.log(err)
+        res.status(400).send({
+            success : false,
+            err : err
+        })
+    }
+})
+
+router.get("/getData", async (req, res) => {
+    try{
+        let dailyCount = await DailyCount.find({
+        })
+        // let dailyCount = new DailyCount({
+        //     count : [0, 2, 1, 1, 2, 3, 3, 0, 2]
+        // })
+        // await dailyCount.save()
+        console.log(dailyCount)
+        res.status(201).send({
+            success :  true,
+            data :  dailyCount
         })
     }catch(err){
         console.log(err)
