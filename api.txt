@@ -279,7 +279,12 @@ Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMy
     method : PUT
     Headers : Bearer "TOKEN"
 
-    
+
+11) To check if resident added or not
+    url - http://18.218.101.128:5000/resident/checkResident/9876543210
+    method : GET
+    params - MobileNumber
+
 ---------------- UPLOAD API-----------------------
 
 1)  Upload images

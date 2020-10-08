@@ -249,7 +249,7 @@ router.post('/addRemarks', residentAuth, async (req, res) => {
     }
 })
 
-// Check visitor 
+// Check Resident 
 router.get('/checkResident/:residentMobileNumber', async (req, res) => {
     try {
         let residentMobileNumber = req.params.residentMobileNumber
