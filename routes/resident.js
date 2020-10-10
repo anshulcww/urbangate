@@ -17,6 +17,7 @@ const ObjectId = mongoose.Types.ObjectId
 
 const { residentAuth } = require('../middleware/auth')
 const Resident = require('../models/resident')
+const Society = require('../models/society')
 
 // WHO AM I????
 router.get('/whoami', residentAuth, async (req, res) => {
@@ -252,10 +253,20 @@ router.post('/addRemarks', residentAuth, async (req, res) => {
 // Check Resident 
 router.get('/checkResident/:residentMobileNumber', async (req, res) => {
     try {
-        let residentMobileNumber = req.params.residentMobileNumber
-        const resident = await Resident.findByCredentials(residentMobileNumber)
-        const token = await resident.generateAuthToken()
-        await resident.save()
+        let residentMobileNumber = req.params.residentMobileNumber;
+        const resident = await Resident.findByCredentials(residentMobileNumber);
+        let society =  await Society.find({
+            _id : ObjectId(resident.residentId)
+        })
+        let apartment = await Apartment.find({
+            _id : ObjectId(resident.apartmentId)
+        })
+        resident['societyName'] = society[0].societyName;
+        resident['apartment'] = apartment[0]
+
+        const token = await resident.generateAuthToken();
+        console.log(resident)
+        await resident.save();
         res.status(201).send({
             success: true,
             data: resident,
