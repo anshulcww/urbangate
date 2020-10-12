@@ -282,24 +282,27 @@ router.post('/addRemarks', residentAuth, async (req, res) => {
 router.get('/checkResident/:residentMobileNumber', async (req, res) => {
     try {
         let residentMobileNumber = req.params.residentMobileNumber;
-        const resident = await Resident.findByCredentials(residentMobileNumber);
-        // console.log(resident)
+        let resident = await Resident.findByCredentials(residentMobileNumber);
+        console.log(typeof resident)
         let society =  await Society.find({
             _id : ObjectId(resident.societyId)
         })
         let apartment = await Apartment.find({
             _id : ObjectId(resident.apartmentId)
         })
-        // console.log(society)
-        resident['societyName'] = society[0].societyName;
-        resident['apartment'] = apartment[0]
-
+        // console.log(resident.apartmentId)
+        
         const token = await resident.generateAuthToken();
-        // console.log(resident)
         await resident.save();
+        let data = {
+            "resident" : resident,
+            "societyName" : society[0].societyName,
+            "apartmentDetails" : apartment
+        }
+        // console.log(apartment, "resident")
         res.status(201).send({
             success: true,
-            data: resident,
+            data: data,
             token
         })
     } catch (error) {
