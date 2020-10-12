@@ -9,7 +9,7 @@ const VisitorPreApproved = require('../models/visitorPreApproved')
 const VisitorEntryLogs = require('../models/visitorEntryLogs')
 const DailyHelperRemarks = require('../models/dailyHelperRemarks')
 const DailyHelper = require('../models/dailyHelper')
-
+const Delivery = require('../models/delivery')
 
 const mongoose = require('mongoose')
 
@@ -17,6 +17,35 @@ const ObjectId = mongoose.Types.ObjectId
 
 const { residentAuth } = require('../middleware/auth')
 const Resident = require('../models/resident')
+const Society = require('../models/society')
+
+// Get Deliveries
+// Get deliveries
+router.get('/deliveries', residentAuth,  async(req, res) => {
+    try{
+        let societyId = req.resident.societyId;
+        let apartmentId = req.resident.apartmentId;
+        console.log(apartmentId, )
+        let result = await Delivery.aggregate([
+            {
+            $match: {societyId : societyId, apartmentId : apartmentId}
+            },
+            { $addFields: { "apartmentObj": { "$toObjectId": "$apartmentId" } } },
+            { $lookup: { from: "apartments", localField: "apartmentObj", foreignField: "_id", as: "details" } },
+        ])
+        res.status(201).send({
+            success: true,
+            data: result
+        })
+
+    }catch(error){
+        console.log(error)
+        res.status(400).send({
+            success: false,
+            error: error
+        })
+    }
+})
 
 // WHO AM I????
 router.get('/whoami', residentAuth, async (req, res) => {
@@ -249,13 +278,25 @@ router.post('/addRemarks', residentAuth, async (req, res) => {
     }
 })
 
-// Check visitor 
+// Check Resident 
 router.get('/checkResident/:residentMobileNumber', async (req, res) => {
     try {
-        let residentMobileNumber = req.params.residentMobileNumber
-        const resident = await Resident.findByCredentials(residentMobileNumber)
-        const token = await resident.generateAuthToken()
-        await resident.save()
+        let residentMobileNumber = req.params.residentMobileNumber;
+        const resident = await Resident.findByCredentials(residentMobileNumber);
+        // console.log(resident)
+        let society =  await Society.find({
+            _id : ObjectId(resident.societyId)
+        })
+        let apartment = await Apartment.find({
+            _id : ObjectId(resident.apartmentId)
+        })
+        // console.log(society)
+        resident['societyName'] = society[0].societyName;
+        resident['apartment'] = apartment[0]
+
+        const token = await resident.generateAuthToken();
+        // console.log(resident)
+        await resident.save();
         res.status(201).send({
             success: true,
             data: resident,
