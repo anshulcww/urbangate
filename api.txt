@@ -96,8 +96,13 @@ ____NOTE -  If visitor already exist then add "visitorId" : "5f5a2ea378d0b0792da
     url - http://18.218.101.128:5000/guard/deliveries
     headers - "Bearer token"
 
-// get all delivery 
 
+12) Update password
+    url - http://18.218.101.128:5000/guard/updatePassword
+    headers - "Bearer token"
+    body - {
+        "newPassword" : "anshul"
+    }
 
 
 
