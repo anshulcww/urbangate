@@ -142,9 +142,7 @@ router.get('/helpers', residentAuth, async (req, res) => {
                     personalHelpers.push(helper[i])
                 }
             }
-            if (checkCount === 0) {
-                societyHelpers.push(helper[i])
-            }
+            societyHelpers.push(helper[i])
         }
         res.status(201).send({
             success: true,
