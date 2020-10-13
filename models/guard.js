@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const Config = require('../config')
+const bcrypt = require('bcryptjs')
 
 const guardSchema = mongoose.Schema({
     adminId : {
@@ -40,6 +41,14 @@ const guardSchema = mongoose.Schema({
         token : String
     }]
 })
+
+guardSchema.pre('save', async function (next) {
+    const guard = this
+    if (guard.isModified('password')) {
+        guard.password = await bcrypt.hash(guard.password, 10)
+    }
+})
+
 // generate token
 guardSchema.methods.generateAuthToken = async function () {
     const guard = this
