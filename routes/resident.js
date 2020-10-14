@@ -25,7 +25,7 @@ router.get('/deliveries', residentAuth,  async(req, res) => {
     try{
         let societyId = req.resident.societyId;
         let apartmentId = req.resident.apartmentId;
-        console.log(apartmentId, )
+        // console.log(apartmentId, )
         let result = await Delivery.aggregate([
             {
             $match: {societyId : societyId, apartmentId : apartmentId}

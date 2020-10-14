@@ -42,12 +42,12 @@ const guardSchema = mongoose.Schema({
     }]
 })
 
-guardSchema.pre('save', async function (next) {
-    const guard = this
-    if (guard.isModified('password')) {
-        guard.password = await bcrypt.hash(guard.password, 10)
-    }
-})
+// guardSchema.pre('save', async function (next) {
+//     const guard = this
+//     if (guard.isModified('password')) {
+//         guard.password = await bcrypt.hash(guard.password, 10)
+//     }
+// })
 
 // generate token
 guardSchema.methods.generateAuthToken = async function () {

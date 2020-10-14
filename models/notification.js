@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 const request = require('request')
 const nodemailer = require('nodemailer')
 const FCM = require('fcm-node')
-const serverKey = require('../firebase.json')
+const serverKey = "AAAApu54y5Y:APA91bHtBtoFTQrCvjIU1vTzdAUIc_Y3uRKgGvDMe8CZ_cPujeSjwPxneky9XCm8RthBJgqNI5A0zljPc87L6b9u7NcIkuehxmRsanqMsKikxerTI6Jkg1k21rr_kDTS1LP0jdNeFHB_"
 const fcm = new FCM(serverKey)
 const { ENVIRONMENT } = require('../config')
 
-const User = require('./user')
+// const User = require('./user')
 
 const notificationSchema = mongoose.Schema({
     userId: String,
