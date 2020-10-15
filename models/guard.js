@@ -73,9 +73,11 @@ guardSchema.statics.findByCredentials = async (mobileNumber, password) => {
     }
 
     if (password != '0000') {
-        const isPasswordCorrect = await bcrypt.compare(password, user.password)
-        if (!isPasswordCorrect) {
-            throw new Error('invalid credentials')
+        // const isPasswordCorrect = await bcrypt.compare(password, user.password)
+        if(guard.password != password){
+            if (!isPasswordCorrect) {
+                throw new Error('invalid credentials')
+            }
         }
     }
 
