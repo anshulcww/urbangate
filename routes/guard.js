@@ -523,5 +523,34 @@ router.post('/updatePassword', guardAuth, async (req, res) => {
     }
 })
 
+// Forgot password
+
+router.post('/forgotPassword', async (req, res) => {
+    try {
+        console.log(req.body)
+        const {
+            guardMobileNumber,
+            newPassword
+        } = req.body
+        const guard = await Guard.findOne({
+            guardMobileNumber: guardMobileNumber
+        })
+        if (guard) {
+            guard.password = newPassword
+            await guard.save()
+            res.status(201).send({
+                success: true
+            })
+        } else {
+            res.status(201).send({
+                success: false,
+                message : "Guard not registered"
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(error)
+    }
+})
 
 module.exports = router;
