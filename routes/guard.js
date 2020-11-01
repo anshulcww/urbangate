@@ -494,5 +494,63 @@ router.post('/login', async (req, res) => {
     }
 })
 
+// update password
+
+router.post('/updatePassword', guardAuth, async (req, res) => {
+    try {
+        console.log(req.body)
+        const {
+            newPassword
+        } = req.body
+        let guardId = req.guard._id
+        const guard = await Guard.findOne({
+            _id: ObjectId(guardId)
+        })
+        if (guard) {
+            guard.password = newPassword
+            await guard.save()
+            res.status(201).send({
+                success: true
+            })
+        } else {
+            res.status(201).send({
+                success: false
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(error)
+    }
+})
+
+// Forgot password
+
+router.post('/forgotPassword', async (req, res) => {
+    try {
+        console.log(req.body)
+        const {
+            guardMobileNumber,
+            newPassword
+        } = req.body
+        const guard = await Guard.findOne({
+            guardMobileNumber: guardMobileNumber
+        })
+        if (guard) {
+            guard.password = newPassword
+            await guard.save()
+            res.status(201).send({
+                success: true
+            })
+        } else {
+            res.status(201).send({
+                success: false,
+                message : "Guard not registered"
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(error)
+    }
+})
 
 module.exports = router;

@@ -2,7 +2,12 @@ const express = require('express')
 const DailyCount = require('../models/dailyCount')
 const router = express.Router()
 const Society = require('../models/society')
-
+const Notification = require('../models/notification')
+// Notification test
+// function abc(){
+//     Notification.push(['dvKeNZJ1SVmHHd8MSRMaxq:APA91bHQDHIGK3isD9LHwVN_vOc_z4cUAHuZjZSi_sPDy3NYpXdhpPbG-jCod4zYOFd1k8ZgcOGowyWMUxIGzy6X6kbb8rDc4CVJcOgGx6xW1kQm1j0bJQvMouJa1XKGhQDDaXqAqiXA'], 'test', 'body', 'screen')
+// }
+// abc()
 
 // Get all societies
 router.get('/getAllSocieties', async (req, res) => {

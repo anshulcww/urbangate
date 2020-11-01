@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const Config = require('../config')
+const bcrypt = require('bcryptjs')
 
 const guardSchema = mongoose.Schema({
     adminId : {
@@ -40,6 +41,14 @@ const guardSchema = mongoose.Schema({
         token : String
     }]
 })
+
+// guardSchema.pre('save', async function (next) {
+//     const guard = this
+//     if (guard.isModified('password')) {
+//         guard.password = await bcrypt.hash(guard.password, 10)
+//     }
+// })
+
 // generate token
 guardSchema.methods.generateAuthToken = async function () {
     const guard = this
@@ -64,9 +73,11 @@ guardSchema.statics.findByCredentials = async (mobileNumber, password) => {
     }
 
     if (password != '0000') {
-        const isPasswordCorrect = await bcrypt.compare(password, user.password)
-        if (!isPasswordCorrect) {
-            throw new Error('invalid credentials')
+        // const isPasswordCorrect = await bcrypt.compare(password, user.password)
+        if(guard.password != password){
+            if (!isPasswordCorrect) {
+                throw new Error('invalid credentials')
+            }
         }
     }
 
