@@ -285,6 +285,8 @@ Dummy resident token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjZhMmMy
     method : GET
     params - MobileNumber
 
+note: need society name and flat name, building name too in the response
+
 ---------------- UPLOAD API-----------------------
 
 1)  Upload images
